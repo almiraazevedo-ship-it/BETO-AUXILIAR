@@ -1,5 +1,5 @@
 # 🏗️ Construtor Master — O Jogo da Obra
-
+v2
 ## Sobre o Projeto
 Plataforma web interativa e educativa com um jogo de múltipla escolha sobre construção civil. O jogador, guiado pelo **Mestre André** (assistente virtual de manutenção), precisa escolher os equipamentos e materiais corretos em cada fase de uma obra, até construir uma casa completa.
 
