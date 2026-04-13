@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Construtor Master – O Jogo da Obra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #FF6B00;
+      --orange-light: #FF8C00;
+      --blue: #1A3C6E;
+      --blue-light: #2563EB;
+      --yellow: #FFD600;
+      --green: #22C55E;
+      --red: #EF4444;
+      --gray: #F3F4F6;
+      --white: #FFFFFF;
+      --text: #1F2937;
+      --text-light: #6B7280;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #1A3C6E 0%, #0F2448 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+
+    /* ======= TELAS ======= */
+    .screen {
+      display: none;
+      width: 100%;
+      max-width: 900px;
+      animation: fadeIn 0.4s ease;
+    }
+    .screen.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ======= CARD PRINCIPAL ======= */
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    /* ======= TELA INICIAL ======= */
+    #screen-home .hero {
+      text-align: center;
+    }
+    #screen-home .mascot-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .mascot-circle {
+      width: 160px;
+      height: 160px;
+      background: transparent;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      animation: pulse 2s infinite;
+      filter: drop-shadow(0 10px 30px rgba(255,107,0,0.4));
+    }
+    .mascot-circle img {
+      width: 160px;
+      height: auto;
+      object-fit: contain;
+      margin-top: 10px;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .badge-mascot {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--orange), #FF3D00);
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    #screen-home h1 {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--blue);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    #screen-home h1 span { color: var(--orange); }
+    #screen-home .subtitle {
+      color: var(--text-light);
+      font-size: 1.05rem;
+      margin-bottom: 30px;
+    }
+    .speech-bubble {
+      background: #FFF7ED;
+      border: 2px solid #FED7AA;
+      border-radius: 16px;
+      padding: 18px 24px;
+      margin-bottom: 30px;
+      position: relative;
+      text-align: left;
+    }
+    .speech-bubble::before {
+      content: '💬';
+      position: absolute;
+      top: -14px;
+      left: 24px;
+      font-size: 20px;
+    }
+    .speech-bubble p {
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .speech-bubble strong { color: var(--orange); }
+
+    /* fases preview */
+    .phases-preview {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+    .phase-dot {
+      background: var(--gray);
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-light);
+      cursor: default;
+    }
+    .phase-dot .icon { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .btn:active { transform: scale(0.96); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      color: white;
+      box-shadow: 0 6px 20px rgba(255,107,0,0.4);
+      width: 100%;
+      font-size: 1.15rem;
+    }
+    .btn-primary:hover { box-shadow: 0 8px 28px rgba(255,107,0,0.6); transform: translateY(-2px); }
+    .btn-secondary {
+      background: var(--gray);
+      color: var(--text);
+    }
+    .btn-secondary:hover { background: #E5E7EB; }
+    .btn-blue {
+      background: linear-gradient(135deg, var(--blue), var(--blue-light));
+      color: white;
+      box-shadow: 0 6px 20px rgba(26,60,110,0.4);
+    }
+
+    /* ======= TELA DE JOGO ======= */
+    #screen-game .game-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* topo */
+    .game-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .lives-bar { display: flex; gap: 6px; }
+    .heart { font-size: 1.3rem; transition: all 0.3s; }
+    .heart.empty { opacity: 0.2; }
+    .score-badge {
+      background: linear-gradient(135deg, var(--yellow), #FFA000);
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 0.95rem;
+      padding: 6px 18px;
+      border-radius: 20px;
+    }
+    .phase-badge {
+      background: var(--blue);
+      color: white;
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 6px 16px;
+      border-radius: 20px;
+    }
+
+    /* progress */
+    .progress-wrap { margin-bottom: 20px; }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+    .progress-bar {
+      height: 10px;
+      background: var(--gray);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--orange), var(--orange-light));
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+
+    /* mascote orientação */
+    .mascot-hint {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #FFF7ED;
+      border: 2px solid #FED7AA;
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+    .mascot-mini {
+      width: 64px;
+      height: 64px;
+      background: transparent;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      filter: drop-shadow(0 4px 8px rgba(255,107,0,0.3));
+    }
+    .mascot-mini img {
+      width: 64px;
+      height: auto;
+      object-fit: contain;
+    }
+    .mascot-hint-text { flex: 1; }
+    .mascot-hint-text .name {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .mascot-hint-text p {
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* pergunta */
+    .question-card {
+      background: var(--blue);
+      color: white;
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .question-phase-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+    .question-text {
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    /* opções */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 2px solid #E5E7EB;
+      background: white;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--orange);
+      background: #FFF7ED;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255,107,0,0.15);
+    }
+    .option-btn .opt-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .option-btn.correct {
+      border-color: var(--green) !important;
+      background: #F0FDF4 !important;
+      color: #166534;
+    }
+    .option-btn.wrong {
+      border-color: var(--red) !important;
+      background: #FEF2F2 !important;
+      color: #991B1B;
+    }
+    .option-btn:disabled { cursor: not-allowed; opacity: 0.8; }
+
+    /* feedback */
+    .feedback-box {
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: none;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .feedback-box.show { display: flex; animation: fadeIn 0.3s ease; }
+    .feedback-box.correct-fb { background: #F0FDF4; border: 2px solid #86EFAC; }
+    .feedback-box.wrong-fb { background: #FEF2F2; border: 2px solid #FCA5A5; }
+    .feedback-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .feedback-content .fb-title {
+      font-weight: 800;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    .feedback-content .fb-title.correct-txt { color: #166534; }
+    .feedback-content .fb-title.wrong-txt { color: #991B1B; }
+    .feedback-content p { font-size: 0.88rem; color: var(--text); line-height: 1.5; }
+
+    .btn-next {
+      display: none;
+      width: 100%;
+    }
+    .btn-next.show { display: block; }
+
+    /* painel lateral */
+    .side-panel {}
+    .house-progress {
+      background: white;
+      border: 2px solid var(--gray);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .house-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .house-visual {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    /* SVG casa */
+    .house-svg { width: 100%; height: auto; }
+
+    .mini-phases {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .mini-phase-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-light);
+      padding: 6px 10px;
+      border-radius: 10px;
+      transition: all 0.3s;
+    }
+    .mini-phase-item.done {
+      background: #F0FDF4;
+      color: #166534;
+    }
+    .mini-phase-item.current {
+      background: #FFF7ED;
+      color: var(--orange);
+      border: 1px solid #FED7AA;
+    }
+    .mini-phase-item .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #D1D5DB;
+      flex-shrink: 0;
+    }
+    .mini-phase-item.done .dot { background: var(--green); }
+    .mini-phase-item.current .dot { background: var(--orange); }
+
+    /* ======= TELA FINAL ======= */
+    #screen-final { text-align: center; }
+    #screen-final .card { text-align: center; }
+    .final-emoji { font-size: 5rem; margin-bottom: 16px; display: block; animation: bounce 1s infinite; }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    #screen-final h2 { font-size: 2rem; font-weight: 900; color: var(--blue); margin-bottom: 8px; }
+    #screen-final .rank { font-size: 3rem; font-weight: 900; color: var(--orange); margin: 10px 0; }
+    #screen-final .final-score { font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin-bottom: 20px; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-box {
+      background: var(--gray);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .stat-box .stat-val { font-size: 1.6rem; font-weight: 900; color: var(--blue); }
+    .stat-box .stat-lbl { font-size: 0.78rem; font-weight: 700; color: var(--text-light); }
+    .house-final {
+      font-size: 5rem;
+      margin: 16px 0;
+    }
+    .btn-restart {
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      color: white;
+      box-shadow: 0 6px 20px rgba(255,107,0,0.4);
+      padding: 14px 40px;
+    }
+
+    /* ======= TELA GAME OVER ======= */
+    #screen-gameover { text-align: center; }
+    #screen-gameover .card { text-align: center; }
+
+    /* confetti */
+    .confetti-wrap {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 999;
+      overflow: hidden;
+    }
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 14px;
+      top: -20px;
+      opacity: 0;
+      animation: confettiFall linear forwards;
+    }
+    @keyframes confettiFall {
+      0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+    }
+
+    /* Botão Voltar */
+    .btn-back {
+      background: transparent;
+      border: 2px solid #E5E7EB;
+      color: var(--text-light);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 800;
+      padding: 8px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: none;
+    }
+    .btn-back.show {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-back:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: #F0F4FF;
+    }
+    .btn-back:active { transform: scale(0.96); }
+
+    /* Responsivo */
+    @media (max-width: 640px) {
+      .card { padding: 24px 16px; }
+      #screen-game .game-layout { grid-template-columns: 1fr; }
+      .side-panel { order: -1; }
+      .house-progress { display: none; }
+      .options-grid { grid-template-columns: 1fr; }
+      #screen-home h1 { font-size: 1.8rem; }
+      .phases-preview { grid-template-columns: repeat(5, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Confetti -->
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<!-- ===== TELA INICIAL ===== -->
+<section class="screen active" id="screen-home">
+  <div class="card">
+    <div class="hero">
+      <div class="mascot-wrap">
+        <div class="mascot-circle"><img src="images/beto.png" alt="Beto - Auxiliar em Manutenção"/></div>
+      </div>
+      <div class="badge-mascot">🔧 Beto — Auxiliar em Manutenção</div>
+      <h1>Construtor <span>Master</span></h1>
+      <p class="subtitle">O Jogo da Obra — aprenda construindo!</p>
+
+      <div class="speech-bubble">
+        <p>E aí! Eu sou o <strong>Beto</strong>, auxiliar em manutenção da <strong>LocExpress</strong>! 🔧<br>
+        Vamos construir uma <strong>casa do zero</strong>? Em cada fase da obra, você vai escolher o equipamento correto para avançar. São <strong>10 fases</strong>, desde o canteiro até a limpeza final!<br><br>
+        <strong>Bora trabalhar, equipe!</strong> 🦺</p>
+      </div>
+
+      <div class="phases-preview">
+        <div class="phase-dot"><span class="icon">🏕️</span>Canteiro</div>
+        <div class="phase-dot"><span class="icon">🏗️</span>Fundação</div>
+        <div class="phase-dot"><span class="icon">💥</span>Demolição</div>
+        <div class="phase-dot"><span class="icon">🔩</span>Estrutura</div>
+        <div class="phase-dot"><span class="icon">🧱</span>Alvenaria</div>
+        <div class="phase-dot"><span class="icon">⚡</span>Instalações</div>
+        <div class="phase-dot"><span class="icon">🪨</span>Piso</div>
+        <div class="phase-dot"><span class="icon">🎨</span>Acabamento</div>
+        <div class="phase-dot"><span class="icon">🌿</span>Jardinagem</div>
+        <div class="phase-dot"><span class="icon">🧹</span>Limpeza</div>
+      </div>
+
+      <button class="btn btn-primary" onclick="startGame()">
+        <i class="fas fa-hard-hat"></i> &nbsp;Iniciar a Obra!
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TELA DE JOGO ===== -->
+<section class="screen" id="screen-game">
+  <div class="card">
+    <!-- Topbar -->
+    <div class="game-topbar">
+      <div class="lives-bar" id="livesBar">
+        <span class="heart">❤️</span>
+        <span class="heart">❤️</span>
+        <span class="heart">❤️</span>
+      </div>
+      <div class="phase-badge" id="phaseBadge">Fase 1/10</div>
+      <div class="score-badge">⭐ <span id="scoreDisplay">0</span> pts</div>
+    </div>
+    <!-- Botão Voltar -->
+    <div style="margin-bottom:12px;">
+      <button class="btn-back" id="btnBack" onclick="prevPhase()">
+        <i class="fas fa-arrow-left"></i> Voltar Fase
+      </button>
+    </div>
+
+    <!-- Progresso -->
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="progressLabel">Progresso da Obra</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="game-layout">
+      <!-- Coluna principal -->
+      <div class="main-col">
+        <!-- Dica do Mestre André -->
+        <div class="mascot-hint">
+          <div class="mascot-mini"><img src="images/beto.png" alt="Beto"/></div>
+          <div class="mascot-hint-text">
+            <div class="name">Beto diz:</div>
+            <p id="masterHint">Selecione a resposta correta para avançar!</p>
+          </div>
+        </div>
+
+        <!-- Pergunta -->
+        <div class="question-card">
+          <div class="question-phase-label" id="qPhaseLabel">Fase 1 — Preparação do Terreno</div>
+          <div class="question-text" id="questionText">Carregando pergunta...</div>
+        </div>
+
+        <!-- Opções -->
+        <div class="options-grid" id="optionsGrid"></div>
+
+        <!-- Feedback -->
+        <div class="feedback-box" id="feedbackBox">
+          <div class="feedback-icon" id="feedbackIcon"></div>
+          <div class="feedback-content">
+            <div class="fb-title" id="feedbackTitle"></div>
+            <p id="feedbackText"></p>
+          </div>
+        </div>
+
+        <!-- Botão próximo -->
+        <button class="btn btn-primary btn-next" id="btnNext" onclick="nextPhase()">
+          Próxima Fase <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Painel lateral -->
+      <aside class="side-panel">
+        <div class="house-progress">
+          <div class="house-title">🏠 Sua Casa</div>
+          <div class="house-visual">
+            <svg class="house-svg" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" id="houseSvg">
+              <!-- Terreno -->
+              <rect x="0" y="185" width="220" height="15" fill="#8B6914" id="svg-ground"/>
+              <!-- Fundação -->
+              <rect x="20" y="170" width="180" height="16" fill="#9CA3AF" id="svg-foundation" opacity="0.2"/>
+              <!-- Paredes -->
+              <rect x="30" y="100" width="160" height="70" fill="#D1D5DB" id="svg-walls" opacity="0.2"/>
+              <!-- Telhado -->
+              <polygon points="10,100 110,30 210,100" fill="#EF4444" id="svg-roof" opacity="0.1"/>
+              <!-- Porta -->
+              <rect x="90" y="130" width="40" height="40" rx="4" fill="#92400E" id="svg-door" opacity="0.1"/>
+              <!-- Janela esq -->
+              <rect x="40" y="115" width="35" height="30" rx="4" fill="#93C5FD" id="svg-win-l" opacity="0.1"/>
+              <!-- Janela dir -->
+              <rect x="145" y="115" width="35" height="30" rx="4" fill="#93C5FD" id="svg-win-r" opacity="0.1"/>
+              <!-- Chaminé -->
+              <rect x="145" y="45" width="18" height="30" fill="#6B7280" id="svg-chimney" opacity="0.1"/>
+            </svg>
+          </div>
+
+          <div class="mini-phases" id="miniPhasesList"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TELA FINAL ===== -->
+<section class="screen" id="screen-final">
+  <div class="card">
+    <span class="final-emoji">🏠</span>
+    <h2>Casa Construída!</h2>
+    <div class="rank" id="finalRank">S</div>
+    <div class="final-score" id="finalTitle">Mestre Construtor</div>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-val" id="finalScore">0</div>
+        <div class="stat-lbl">Pontuação</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="finalCorrect">0</div>
+        <div class="stat-lbl">Acertos</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="finalLives">0</div>
+        <div class="stat-lbl">Vidas restantes</div>
+      </div>
+    </div>
+
+    <p style="color:var(--text-light);font-size:0.95rem;margin-bottom:24px;">
+      Parabéns! O Beto ficou orgulhoso de você! Você concluiu todas as fases da obra e construiu a casa do zero! 🎊
+    </p>
+    <button class="btn btn-primary" onclick="restartGame()">
+      <i class="fas fa-redo"></i> &nbsp;Jogar Novamente
+    </button>
+  </div>
+</section>
+
+<!-- ===== TELA GAME OVER ===== -->
+<section class="screen" id="screen-gameover">
+  <div class="card">
+    <span style="font-size:5rem;display:block;margin-bottom:16px;">😞</span>
+    <h2 style="font-size:2rem;font-weight:900;color:var(--red);margin-bottom:8px;">Obra Paralisada!</h2>
+    <p style="color:var(--text-light);margin-bottom:8px;">Você ficou sem vidas... mas todo construtor aprende com os erros!</p>
+    <p style="font-size:1.1rem;font-weight:700;color:var(--blue);margin-bottom:24px;">Pontuação: <span id="goScore">0</span> pts</p>
+    <button class="btn btn-primary" onclick="restartGame()">
+      <i class="fas fa-redo"></i> &nbsp;Tentar Novamente
+    </button>
+  </div>
+</section>
+
+<script>
+// ==============================
+// DADOS DO JOGO — 10 FASES (LocExpress)
+// Sequência: Canteiro → Fundação → Demolição → Estrutura
+//            → Alvenaria → Instalações → Piso → Acabamento
+//            → Jardinagem → Limpeza
+// ==============================
+const PHASES = [
+  {
+    id: 1,
+    name: "Canteiro de Obras",
+    icon: "🏕️",
+    hint: "Antes de tudo precisamos montar o canteiro e garantir energia no local. Que equipamento fornece energia elétrica em obras sem rede?",
+    question: "No CANTEIRO DE OBRAS, precisamos de energia elétrica para operar as ferramentas. Qual equipamento gera energia no local?",
+    options: [
+      { icon: "⚡", text: "Gerador de Energia", correct: true },
+      { icon: "🌀", text: "Betoneira", correct: false },
+      { icon: "💧", text: "Bomba d'água", correct: false }
+    ],
+    explanation: "O Gerador de Energia é indispensável no canteiro de obras! Ele fornece energia elétrica para iluminação, ferramentas e equipamentos em locais sem rede elétrica disponível. Sem ele, nada funciona!",
+    svgStep: "ground"
+  },
+  {
+    id: 2,
+    name: "Fundação — Perfuração",
+    icon: "🏗️",
+    hint: "Na fundação precisamos perfurar o solo para fixar as estacas da casa. Que equipamento motorizado faz esse furo profundo no terreno?",
+    question: "Na fase de FUNDAÇÃO, qual equipamento é utilizado para perfurar o solo e fixar as estacas que sustentarão toda a estrutura da casa?",
+    options: [
+      { icon: "🌀", text: "Betoneira", correct: false },
+      { icon: "🪛", text: "Trado Motorizado (Perfuratriz)", correct: true },
+      { icon: "💥", text: "Martelete Rompedor", correct: false }
+    ],
+    explanation: "O Trado Motorizado (Perfuratriz) é o equipamento certo para a fundação! Com sua broca helicoidal, ele perfura o solo abrindo furos precisos e profundos para o assentamento das estacas que sustentarão toda a casa.",
+    svgStep: "foundation"
+  },
+  {
+    id: 3,
+    name: "Fundação — Concretagem",
+    icon: "🏗️",
+    hint: "Com os furos prontos, precisamos misturar e lançar o concreto nas fundações. Que equipamento prepara a mistura de cimento, areia e brita?",
+    question: "Na CONCRETAGEM DA FUNDAÇÃO, precisamos misturar cimento, areia, brita e água para o concreto. Qual equipamento é utilizado?",
+    options: [
+      { icon: "🌀", text: "Betoneira", correct: true },
+      { icon: "🔨", text: "Martelete Rompedor", correct: false },
+      { icon: "🌿", text: "Roçadeira", correct: false }
+    ],
+    explanation: "A Betoneira é o equipamento essencial para misturar o concreto! Ela gira continuamente garantindo uma mistura homogênea de cimento, areia, brita e água, produzindo concreto de qualidade para as fundações.",
+    svgStep: "walls-start"
+  },
+  {
+    id: 4,
+    name: "Demolição",
+    icon: "💥",
+    hint: "Às vezes é preciso demolir paredes ou quebrar concreto antigo. Que equipamento é o mais indicado para romper concreto e alvenaria?",
+    question: "Na fase de DEMOLIÇÃO, precisamos quebrar concreto e paredes de alvenaria resistentes. Qual equipamento usa impacto para romper estruturas?",
+    options: [
+      { icon: "🔨", text: "Martelete Rompedor Elétrico", correct: true },
+      { icon: "🌀", text: "Betoneira", correct: false },
+      { icon: "🌿", text: "Cortador de Grama", correct: false }
+    ],
+    explanation: "O Martelete Rompedor Elétrico é o equipamento certo para demolição! Ele gera golpes de alta frequência que quebram concreto, alvenaria e rochas com eficiência. Muito mais rápido e preciso que o trabalho manual!",
+    svgStep: "walls"
+  },
+  {
+    id: 5,
+    name: "Estrutura",
+    icon: "🔩",
+    hint: "Na fase de estrutura, montamos andaimes para trabalhar em altura com segurança. Qual estrutura metálica permite isso?",
+    question: "Na fase de ESTRUTURA, os trabalhadores precisam executar serviços em altura com segurança. Qual equipamento é utilizado para isso?",
+    options: [
+      { icon: "🔥", text: "Esmerilhadeira Angular", correct: false },
+      { icon: "🪜", text: "Torre de Andaime", correct: true },
+      { icon: "💧", text: "Compressor de Ar", correct: false }
+    ],
+    explanation: "A Torre de Andaime é fundamental na fase de estrutura! Ela é uma plataforma metálica regulável em altura que garante segurança e mobilidade para os trabalhadores executarem serviços em lajes, vigas e paredes altas.",
+    svgStep: "roof-start"
+  },
+  {
+    id: 6,
+    name: "Alvenaria",
+    icon: "🧱",
+    hint: "No levantamento das paredes, usamos serra para cortar tijolos e blocos no tamanho certo. Qual equipamento é ideal para esse corte?",
+    question: "Na fase de ALVENARIA, precisamos cortar tijolos, blocos cerâmicos e concreto. Qual equipamento realiza esses cortes com precisão?",
+    options: [
+      { icon: "🔩", text: "Parafusadeira", correct: false },
+      { icon: "🪚", text: "Serra Mármore (Cortadora)", correct: true },
+      { icon: "🌀", text: "Misturador de Argamassa", correct: false }
+    ],
+    explanation: "A Serra Mármore (Cortadora de Concreto) é o equipamento ideal para cortar tijolos, blocos e peças de concreto com precisão e velocidade. Seu disco diamantado garante cortes limpos e seguros na fase de alvenaria!",
+    svgStep: "roof"
+  },
+  {
+    id: 7,
+    name: "Instalações",
+    icon: "⚡",
+    hint: "Para instalar tubulações elétricas e hidráulicas, precisamos cortar e abrir rasgos nas paredes. Quais equipamentos fazem isso com eficiência?",
+    question: "Nas INSTALAÇÕES elétricas e hidráulicas, precisamos abrir rasgos nas paredes para embutir tubos e fios. Quais equipamentos usamos?",
+    options: [
+      { icon: "🪚", text: "Martelete / Serra Mármore", correct: true },
+      { icon: "🌿", text: "Aparador de Cerca Viva", correct: false },
+      { icon: "🧹", text: "Aspirador Industrial", correct: false }
+    ],
+    explanation: "O Martelete e a Serra Mármore são os equipamentos certos para instalações! O martelete abre rasgos e furos nas paredes de alvenaria, enquanto a Serra Mármore corta com precisão os blocos e concreto para embutir tubulações e fiações.",
+    svgStep: "door"
+  },
+  {
+    id: 8,
+    name: "Piso de Concreto",
+    icon: "🪨",
+    hint: "Após lançar o concreto no piso, precisamos nivelar e alisar a superfície mecanicamente. Qual equipamento giratório faz isso?",
+    question: "Na fase de PISO DE CONCRETO, após o lançamento, precisamos nivelar e alisar a superfície com precisão. Qual equipamento é usado?",
+    options: [
+      { icon: "🧹", text: "Vassoura Industrial", correct: false },
+      { icon: "🌀", text: "Alisadora de Concreto", correct: true },
+      { icon: "🔩", text: "Furadeira de Impacto", correct: false }
+    ],
+    explanation: "A Alisadora de Concreto é o equipamento certo para o piso! Suas pás giratórias nivelam e alisam mecanicamente a superfície do concreto fresco, garantindo um piso perfeitamente plano e liso com acabamento profissional.",
+    svgStep: "windows"
+  },
+  {
+    id: 9,
+    name: "Acabamento",
+    icon: "🎨",
+    hint: "No acabamento, precisamos lixar paredes e tetos para deixar a superfície lisa antes de pintar. Que equipamento de haste longa alcança essas áreas?",
+    question: "Na fase de ACABAMENTO, precisamos lixar superfícies de paredes e tetos para prepará-las para pintura. Qual equipamento é o mais indicado?",
+    options: [
+      { icon: "🌀", text: "Lixadeira / Girafa", correct: true },
+      { icon: "🌿", text: "Soprador de Folhas", correct: false },
+      { icon: "🔩", text: "Trado Motorizado", correct: false }
+    ],
+    explanation: "A Lixadeira Girafa é o equipamento ideal para o acabamento! Com sua haste telescópica longa, ela alcança paredes altas e tetos com facilidade, lixando as superfícies e removendo imperfeições para preparar para a pintura final.",
+    svgStep: "chimney"
+  },
+  {
+    id: 10,
+    name: "Jardinagem e Limpeza",
+    icon: "🌿",
+    hint: "Obra concluída! Agora precisamos cuidar do jardim e limpar o ambiente. Qual equipamento mantém a grama aparada e o jardim bonito?",
+    question: "Na fase final de JARDINAGEM, precisamos aparar a grama e manter o jardim organizado. Qual equipamento é o mais indicado?",
+    options: [
+      { icon: "🌀", text: "Betoneira", correct: false },
+      { icon: "🌿", text: "Cortador de Grama / Roçadeira", correct: true },
+      { icon: "🔨", text: "Martelete Rompedor", correct: false }
+    ],
+    explanation: "O Cortador de Grama e a Roçadeira são os equipamentos certos para jardinagem! O cortador mantém o gramado nivelado, enquanto a roçadeira alcança cantos e bordas. E para finalizar, o aspirador industrial cuida da limpeza da obra!",
+    svgStep: "complete"
+  }
+];
+
+// ==============================
+// ESTADO DO JOGO
+// ==============================
+let state = {
+  currentPhase: 0,
+  score: 0,
+  lives: 3,
+  correctAnswers: 0,
+  answered: false
+};
+
+// ==============================
+// FUNÇÕES PRINCIPAIS
+// ==============================
+function startGame() {
+  state = { currentPhase: 0, score: 0, lives: 3, correctAnswers: 0, answered: false, history: [] };
+  showScreen('screen-game');
+  buildMiniPhasesList();
+  loadPhase(0);
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function buildMiniPhasesList() {
+  const list = document.getElementById('miniPhasesList');
+  list.innerHTML = '';
+  PHASES.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'mini-phase-item';
+    div.id = `mini-phase-${i}`;
+    div.innerHTML = `<div class="dot"></div>${p.icon} ${p.name}`;
+    list.appendChild(div);
+  });
+}
+
+function loadPhase(idx, isGoingBack) {
+  const phase = PHASES[idx];
+  state.answered = false;
+
+  // Topbar
+  document.getElementById('phaseBadge').textContent = `Fase ${idx+1}/${PHASES.length}`;
+  document.getElementById('scoreDisplay').textContent = state.score;
+  updateLivesBar();
+
+  // Progresso
+  const pct = Math.round((idx / PHASES.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+
+  // Dica
+  document.getElementById('masterHint').textContent = phase.hint;
+
+  // Pergunta
+  document.getElementById('qPhaseLabel').textContent = `Fase ${idx+1} — ${phase.name}`;
+  document.getElementById('questionText').textContent = phase.question;
+
+  // Opções (embaralhadas, exceto ao voltar)
+  const opts = isGoingBack
+    ? [...phase.options]
+    : [...phase.options].sort(() => Math.random() - 0.5);
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-icon">${opt.icon}</span><span>${opt.text}</span>`;
+    btn.onclick = () => selectOption(btn, opt.correct, phase);
+    grid.appendChild(btn);
+  });
+
+  // Feedback e botão próximo
+  hideFeedback();
+  document.getElementById('btnNext').classList.remove('show');
+
+  // Botão Voltar: visível a partir da fase 2 (e antes de responder)
+  const btnBack = document.getElementById('btnBack');
+  btnBack.classList.toggle('show', idx > 0);
+
+  // Mini fases
+  document.querySelectorAll('.mini-phase-item').forEach((el, i) => {
+    el.classList.remove('done', 'current');
+    if (i < idx) el.classList.add('done');
+    else if (i === idx) el.classList.add('current');
+  });
+}
+
+function selectOption(btn, isCorrect, phase) {
+  if (state.answered) return;
+  state.answered = true;
+
+  // Salva snapshot para restaurar ao voltar
+  if (!state.history) state.history = [];
+  state.history[state.currentPhase] = {
+    scoreSnapshot: state.score,
+    livesSnapshot: state.lives,
+    correctSnapshot: state.correctAnswers
+  };
+
+  // Desabilita todas as opções
+  document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    state.score += 100;
+    state.correctAnswers++;
+    document.getElementById('scoreDisplay').textContent = state.score;
+    showFeedback(true, phase.explanation);
+    launchConfetti();
+  } else {
+    btn.classList.add('wrong');
+    state.lives--;
+    updateLivesBar();
+    document.querySelectorAll('.option-btn').forEach(b => {
+      const txt = b.querySelector('span:last-child').textContent;
+      const correct = phase.options.find(o => o.text === txt && o.correct);
+      if (correct) b.classList.add('correct');
+    });
+    showFeedback(false, `A resposta correta é: ${phase.options.find(o=>o.correct).text}. ${phase.explanation}`);
+    if (state.lives <= 0) {
+      setTimeout(() => {
+        document.getElementById('goScore').textContent = state.score;
+        showScreen('screen-gameover');
+      }, 2200);
+      return;
+    }
+  }
+
+  // Atualiza casa
+  updateHouseSvg(phase.svgStep);
+
+  // Mostra próximo, oculta voltar (já respondeu)
+  document.getElementById('btnNext').classList.add('show');
+  document.getElementById('btnBack').classList.remove('show');
+}
+
+function prevPhase() {
+  // Só permite voltar se ainda não respondeu
+  if (state.currentPhase <= 0 || state.answered) return;
+  const prev = state.currentPhase - 1;
+  // Restaura pontuação e vidas do estado anterior
+  if (state.history && state.history[prev]) {
+    const snap = state.history[prev];
+    state.score = snap.scoreSnapshot;
+    state.lives = snap.livesSnapshot;
+    state.correctAnswers = snap.correctSnapshot;
+  }
+  state.currentPhase = prev;
+  loadPhase(prev, true);
+}
+
+function nextPhase() {
+  state.currentPhase++;
+  if (state.currentPhase >= PHASES.length) {
+    endGame();
+  } else {
+    loadPhase(state.currentPhase);
+  }
+}
+
+function endGame() {
+  // Rank
+  let rank, title;
+  const total = PHASES.length;
+  if (state.correctAnswers === total)             { rank = 'S'; title = '🏆 Mestre da Manutenção Supremo!'; }
+  else if (state.correctAnswers >= total * 0.8)   { rank = 'A'; title = '⭐ Técnico Expert em Manutenção'; }
+  else if (state.correctAnswers >= total * 0.6)   { rank = 'B'; title = '🔨 Auxiliar Profissional'; }
+  else                                            { rank = 'C'; title = '🪚 Aprendiz de Manutenção'; }
+
+  document.getElementById('finalRank').textContent = rank;
+  document.getElementById('finalTitle').textContent = title;
+  document.getElementById('finalScore').textContent = state.score;
+  document.getElementById('finalCorrect').textContent = `${state.correctAnswers}/${PHASES.length}`;
+  document.getElementById('finalLives').textContent = state.lives;
+
+  showScreen('screen-final');
+  launchConfetti(80);
+}
+
+function restartGame() {
+  showScreen('screen-home');
+}
+
+// ==============================
+// FEEDBACK
+// ==============================
+function showFeedback(isCorrect, text) {
+  const box = document.getElementById('feedbackBox');
+  const icon = document.getElementById('feedbackIcon');
+  const title = document.getElementById('feedbackTitle');
+  const ftxt = document.getElementById('feedbackText');
+
+  box.className = 'feedback-box show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+  icon.textContent = isCorrect ? '✅' : '❌';
+  title.className = 'fb-title ' + (isCorrect ? 'correct-txt' : 'wrong-txt');
+  title.textContent = isCorrect ? 'Correto! Muito bem!' : 'Errou! Mas vamos aprender...';
+  ftxt.textContent = text;
+}
+
+function hideFeedback() {
+  const box = document.getElementById('feedbackBox');
+  box.className = 'feedback-box';
+}
+
+// ==============================
+// VIDAS
+// ==============================
+function updateLivesBar() {
+  const hearts = document.querySelectorAll('.heart');
+  hearts.forEach((h, i) => {
+    h.classList.toggle('empty', i >= state.lives);
+  });
+}
+
+// ==============================
+// CASA SVG — PROGRESSÃO VISUAL
+// ==============================
+function updateHouseSvg(step) {
+  const steps = {
+    'ground':      [['svg-ground', 1]],
+    'foundation':  [['svg-ground',1], ['svg-foundation', 1]],
+    'walls-start': [['svg-ground',1], ['svg-foundation',1], ['svg-walls', 0.4]],
+    'walls':       [['svg-ground',1], ['svg-foundation',1], ['svg-walls', 0.8]],
+    'roof-start':  [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof', 0.4]],
+    'roof':        [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof', 1]],
+    'door':        [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof',1], ['svg-door', 0.6]],
+    'windows':     [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof',1], ['svg-door',1], ['svg-win-l',1], ['svg-win-r',1]],
+    'chimney':     [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof',1], ['svg-door',1], ['svg-win-l',1], ['svg-win-r',1], ['svg-chimney',1]],
+    'complete':    [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof',1], ['svg-door',1], ['svg-win-l',1], ['svg-win-r',1], ['svg-chimney',1]]
+  };
+  const config = steps[step] || [];
+  // Reset
+  ['svg-ground','svg-foundation','svg-walls','svg-roof','svg-door','svg-win-l','svg-win-r','svg-chimney'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.opacity = '0.1';
+  });
+  config.forEach(([id, opacity]) => {
+    const el = document.getElementById(id);
+    if (el) el.style.opacity = opacity;
+  });
+}
+
+// ==============================
+// CONFETTI
+// ==============================
+function launchConfetti(count = 40) {
+  const wrap = document.getElementById('confettiWrap');
+  const colors = ['#FF6B00','#FFD600','#22C55E','#3B82F6','#EC4899','#8B5CF6'];
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      p.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      p.style.animationDelay = (Math.random() * 0.5) + 's';
+      wrap.appendChild(p);
+      setTimeout(() => p.remove(), 3500);
+    }, i * 30);
+  }
+}
+
+// Inicializa casa com estado base
+window.addEventListener('DOMContentLoaded', () => {
+  updateHouseSvg('ground');
+});
+</script>
+</body>
+</html>
