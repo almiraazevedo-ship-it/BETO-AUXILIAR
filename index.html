@@ -636,18 +636,8 @@
       </div>
       
       <div class="form-group">
-        <label for="userArea">Área</label>
-        <select id="userArea" required>
-          <option value="">Selecione sua área...</option>
-          <option value="Administrativo">Administrativo</option>
-          <option value="Operacional">Operacional</option>
-          <option value="Manutenção">Manutenção</option>
-          <option value="Logística">Logística</option>
-          <option value="Vendas">Vendas</option>
-          <option value="RH">RH</option>
-          <option value="Visitante">Visitante</option>
-          <option value="Outro">Outro</option>
-        </select>
+        <label for="userPhone">Telefone/WhatsApp</label>
+        <input type="text" id="userPhone" placeholder="(00) 00000-0000" required>
       </div>
 
       <div class="form-group">
@@ -707,8 +697,8 @@
         <div class="mascot-hint">
           <div class="mascot-mini"><img src="images/beto.png" alt="Beto"/></div>
           <div class="mascot-hint-text">
-            <div class="name">Beto diz:</div>
-            <p id="masterHint">Selecione a resposta correta para avançar!</p>
+            <div class="name" id="hintGreeting">Olá :</div>
+            <p id="masterHint"><strong>BETO:</strong> Selecione a resposta correta para avançar!</p>
           </div>
         </div>
 
@@ -1000,9 +990,15 @@ function showScreen(id) {
 // CADASTRO
 // ==============================
 function showRegistration() {
+  // Se já há um usuário registrado, vai direto para o jogo
+  if (state.user.name && state.user.phone && state.user.knowsCompany !== null) {
+    startGame();
+    return;
+  }
+  
   // Limpa o formulário
   document.getElementById('userName').value = '';
-  document.getElementById('userArea').value = '';
+  document.getElementById('userPhone').value = '';
   document.getElementById('btnYes').classList.remove('selected');
   document.getElementById('btnNo').classList.remove('selected');
   state.user.knowsCompany = null;
@@ -1018,15 +1014,17 @@ function selectKnowsCompany(value) {
 
 function submitRegistration() {
   const nameInput = document.getElementById('userName');
-  const areaInput = document.getElementById('userArea');
+  const phoneInput = document.getElementById('userPhone');
   
   if (!nameInput.value.trim()) {
     alert("Por favor, preencha seu nome para continuar.");
     return;
   }
   
-  if (!areaInput.value) {
-    alert("Por favor, selecione sua área para continuar.");
+  // Valida telefone (deve ter 11 dígitos)
+  const phoneDigits = phoneInput.value.replace(/\D/g, '');
+  if (phoneDigits.length !== 11) {
+    alert("Por favor, preencha um telefone válido com 11 dígitos (DDD + 9 dígitos).");
     return;
   }
   
@@ -1036,7 +1034,8 @@ function submitRegistration() {
   }
   
   state.user.name = nameInput.value.trim();
-  state.user.area = areaInput.value;
+  // Salva apenas os números no estado para garantir o envio correto
+  state.user.phone = phoneInput.value.replace(/\D/g, '');
   state.user.registeredAt = new Date().toLocaleString('pt-BR');
   
   startGame();
@@ -1065,8 +1064,12 @@ function loadPhase(index, isBack = false) {
   // UI Updates
   document.getElementById('phaseBadge').textContent = `Fase ${index + 1}/${PHASES.length}`;
   document.getElementById('qPhaseLabel').textContent = `Fase ${index + 1} — ${phase.name}`;
+  
+  // Atualiza saudação com o nome do usuário em todas as fases
+  document.getElementById('hintGreeting').textContent = `Olá, ${state.user.name}!`;
   document.getElementById('questionText').textContent = phase.question;
-  document.getElementById('masterHint').textContent = phase.hint;
+  // Coloca o nome BETO em negrito antes da dica
+  document.getElementById('masterHint').innerHTML = `<strong>BETO:</strong> ${phase.hint}`;
   
   // Progress
   const pct = Math.round((index / PHASES.length) * 100);
@@ -1147,6 +1150,11 @@ function checkAnswer(optIdx) {
     
     showFeedback(false, `A resposta correta é: ${phase.options.find(o=>o.correct).text}. ${phase.explanation}`);
     if (state.lives <= 0) {
+      // Salva a tentativa mesmo com Game Over
+      const rank = 'C';
+      const title = '🪚 Aprendiz de Manutenção';
+      savePlayerPerformance(rank, title, true);
+      
       setTimeout(() => {
         document.getElementById('goScore').textContent = state.score;
         showScreen('screen-gameover');
@@ -1210,7 +1218,13 @@ function endGame() {
 }
 
 function restartGame() {
+  // Volta para a tela inicial, mantendo o cadastro do usuário
   showScreen('screen-home');
+}
+
+function restartGameWithSameCadastro() {
+  // Reinicia o jogo sem pedir cadastro novamente
+  startGame();
 }
 
 // ==============================
@@ -1298,12 +1312,16 @@ function launchConfetti(count = 40) {
 // ==============================
 
 // CONFIGURACAO DO GOOGLE SHEETS
-const GOOGLE_SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbyU-DZy0IYGR_uzlc6GKGb-QQ0kNFyx1UydeSfUabHK_-INq5RtaduWVlgb5g7FksL44g/exec';
+// Substitua a URL abaixo pela sua URL do Google Apps Script
+const GOOGLE_SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbyf5f0jqaOSKWfLTxJIlnxg__zEG4STQoIBUJb9XS5E-hE6LAjcSHHh0jlV8FmtFGCsfA/exec';
+
+// Contador de tentativas
+let attemptNumber = 1;
 
 function savePlayerPerformance(rank, title) {
   const performance = {
     name: state.user.name,
-    area: state.user.area,
+    phone: state.user.phone,
     knowsCompany: state.user.knowsCompany ? 'Sim' : 'Não',
     registeredAt: state.user.registeredAt,
     score: state.score,
@@ -1329,7 +1347,7 @@ function savePlayerPerformance(rank, title) {
   console.log('✅ Desempenho salvo localmente:', performance);
   console.log('📊 Histórico completo:', history);
   
-  // Envia para o Google Sheets
+  // Envia para o Google Sheets (se configurado)
   sendToGoogleSheets(performance);
 }
 
@@ -1340,10 +1358,10 @@ function sendToGoogleSheets(performance) {
     return;
   }
   
-  // Prepara os parâmetros para envio via GET
+  // Prepara os parâmetros para envio via GET (evita erro de CORS)
   const params = new URLSearchParams();
   params.append('name', performance.name);
-  params.append('area', performance.area);
+  params.append('phone', performance.phone);
   params.append('knowsCompany', performance.knowsCompany);
   params.append('registeredAt', performance.registeredAt);
   params.append('score', performance.score);
@@ -1354,7 +1372,7 @@ function sendToGoogleSheets(performance) {
   params.append('rank', performance.rank);
   params.append('completedAt', performance.completedAt);
   
-  // Envia via GET
+  // Envia via GET (sem problemas de CORS)
   const urlComParams = GOOGLE_SHEETS_API_URL + '?' + params.toString();
   
   fetch(urlComParams, {
@@ -1431,10 +1449,35 @@ function showPerformanceStats() {
 }
 
 // Inicializa casa com estado base
+// Função para aplicar máscara de telefone
+function applyPhoneMask(input) {
+  let value = input.value.replace(/\D/g, '');
+  if (value.length > 11) value = value.slice(0, 11);
+  
+  if (value.length === 0) {
+    input.value = '';
+  } else if (value.length <= 2) {
+    input.value = `(${value}`;
+  } else if (value.length <= 7) {
+    input.value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+  } else {
+    input.value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
+  }
+}
+
+
 window.addEventListener('DOMContentLoaded', () => {
   updateHouseSvg('ground');
   
+  // Adiciona máscara de telefone
+  const phoneInput = document.getElementById('userPhone');
+  if (phoneInput) {
+    phoneInput.addEventListener('input', function() {
+      applyPhoneMask(this);
+    });
+  }
   
+  // Dica: Pressione Ctrl+Shift+K no console e digite: showPerformanceStats() para ver as estatísticas
   console.log('%c🎮 Constructor Master - Modo Debug', 'font-size: 16px; font-weight: bold; color: #FF6B00;');
   console.log('Comandos disponíveis no console:');
   console.log('  showPerformanceStats() - Ver estatísticas gerais');
