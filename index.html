@@ -56,6 +56,79 @@
       box-shadow: 0 20px 60px rgba(0,0,0,0.4);
     }
 
+    /* ======= TELA DE CADASTRO ======= */
+    #screen-register .hero {
+      text-align: center;
+    }
+    #screen-register h1 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+    #screen-register h1 span { color: var(--orange); }
+    #screen-register .subtitle {
+      color: var(--text-light);
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+    .form-group {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: 2px solid #E5E7EB;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 4px rgba(255, 107, 0, 0.1);
+    }
+
+    /* Botões de escolha Sim/Não */
+    .btn-choice {
+      flex: 1;
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 2px solid #E5E7EB;
+      background: white;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-choice:hover {
+      border-color: var(--orange);
+      background: #FFF7ED;
+    }
+    .btn-choice.selected {
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      color: white;
+      border-color: var(--orange);
+      box-shadow: 0 4px 12px rgba(255,107,0,0.3);
+    }
+
     /* ======= TELA INICIAL ======= */
     #screen-home .hero {
       text-align: center;
@@ -371,135 +444,101 @@
       font-size: 0.95rem;
       margin-bottom: 4px;
     }
-    .feedback-content .fb-title.correct-txt { color: #166534; }
-    .feedback-content .fb-title.wrong-txt { color: #991B1B; }
-    .feedback-content p { font-size: 0.88rem; color: var(--text); line-height: 1.5; }
+    .correct-txt { color: #166534; }
+    .wrong-txt { color: #991B1B; }
 
-    .btn-next {
-      display: none;
-      width: 100%;
-    }
-    .btn-next.show { display: block; }
+    .btn-next { display: none; }
+    .btn-next.show { display: inline-block; }
 
-    /* painel lateral */
-    .side-panel {}
-    .house-progress {
-      background: white;
-      border: 2px solid var(--gray);
-      border-radius: 20px;
+    /* Painel lateral */
+    .side-panel {
+      background: var(--gray);
+      border-radius: 18px;
       padding: 20px;
-      margin-bottom: 16px;
     }
     .house-title {
-      font-size: 0.85rem;
       font-weight: 800;
       color: var(--blue);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-align: center;
       margin-bottom: 16px;
+      text-align: center;
     }
     .house-visual {
-      width: 100%;
+      background: white;
       border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 14px;
+      padding: 10px;
+      margin-bottom: 16px;
     }
-    /* SVG casa */
     .house-svg { width: 100%; height: auto; }
 
     .mini-phases {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
     .mini-phase-item {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.78rem;
+      gap: 10px;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--text-light);
       padding: 6px 10px;
-      border-radius: 10px;
-      transition: all 0.3s;
+      border-radius: 8px;
+      background: white;
+    }
+    .mini-phase-item.active {
+      background: var(--blue);
+      color: white;
     }
     .mini-phase-item.done {
-      background: #F0FDF4;
-      color: #166534;
+      color: var(--green);
     }
-    .mini-phase-item.current {
-      background: #FFF7ED;
-      color: var(--orange);
-      border: 1px solid #FED7AA;
-    }
-    .mini-phase-item .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #D1D5DB;
-      flex-shrink: 0;
-    }
-    .mini-phase-item.done .dot { background: var(--green); }
-    .mini-phase-item.current .dot { background: var(--orange); }
 
     /* ======= TELA FINAL ======= */
     #screen-final { text-align: center; }
-    #screen-final .card { text-align: center; }
-    .final-emoji { font-size: 5rem; margin-bottom: 16px; display: block; animation: bounce 1s infinite; }
-    @keyframes bounce {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+    .final-emoji { font-size: 5rem; display: block; margin-bottom: 16px; }
+    .rank {
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--orange);
+      margin-bottom: 10px;
     }
-    #screen-final h2 { font-size: 2rem; font-weight: 900; color: var(--blue); margin-bottom: 8px; }
-    #screen-final .rank { font-size: 3rem; font-weight: 900; color: var(--orange); margin: 10px 0; }
-    #screen-final .final-score { font-size: 1.2rem; font-weight: 700; color: var(--text-light); margin-bottom: 20px; }
+    .final-score {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--blue);
+      margin-bottom: 30px;
+    }
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
-      margin-bottom: 24px;
+      margin-bottom: 30px;
     }
     .stat-box {
       background: var(--gray);
-      border-radius: 14px;
       padding: 16px;
+      border-radius: 16px;
     }
-    .stat-box .stat-val { font-size: 1.6rem; font-weight: 900; color: var(--blue); }
-    .stat-box .stat-lbl { font-size: 0.78rem; font-weight: 700; color: var(--text-light); }
-    .house-final {
-      font-size: 5rem;
-      margin: 16px 0;
-    }
-    .btn-restart {
-      background: linear-gradient(135deg, var(--orange), var(--orange-light));
-      color: white;
-      box-shadow: 0 6px 20px rgba(255,107,0,0.4);
-      padding: 14px 40px;
-    }
+    .stat-val { font-size: 1.4rem; font-weight: 900; color: var(--blue); }
+    .stat-lbl { font-size: 0.75rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; }
 
-    /* ======= TELA GAME OVER ======= */
-    #screen-gameover { text-align: center; }
-    #screen-gameover .card { text-align: center; }
-
-    /* confetti */
+    /* Confetti */
     .confetti-wrap {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0; left: 0; width: 100%; height: 100%;
       pointer-events: none;
       z-index: 999;
       overflow: hidden;
     }
     .confetti-piece {
       position: absolute;
-      width: 10px;
-      height: 14px;
+      width: 10px; height: 10px;
+      background: #f00;
       top: -20px;
-      opacity: 0;
-      animation: confettiFall linear forwards;
+      animation: fall linear forwards;
     }
-    @keyframes confettiFall {
+    @keyframes fall {
       0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
       100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
     }
@@ -577,8 +616,54 @@
         <div class="phase-dot"><span class="icon">🧹</span>Limpeza</div>
       </div>
 
-      <button class="btn btn-primary" onclick="startGame()">
+      <button class="btn btn-primary" onclick="showRegistration()">
         <i class="fas fa-hard-hat"></i> &nbsp;Iniciar a Obra!
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TELA DE CADASTRO ===== -->
+<section class="screen" id="screen-register">
+  <div class="card">
+    <div class="hero">
+      <h1>Antes de <span>Começar</span></h1>
+      <p class="subtitle">Precisamos conhecer você melhor!</p>
+      
+      <div class="form-group">
+        <label for="userName">Nome</label>
+        <input type="text" id="userName" placeholder="Digite seu nome..." required>
+      </div>
+      
+      <div class="form-group">
+        <label for="userArea">Área</label>
+        <select id="userArea" required>
+          <option value="">Selecione sua área...</option>
+          <option value="Administrativo">Administrativo</option>
+          <option value="Operacional">Operacional</option>
+          <option value="Manutenção">Manutenção</option>
+          <option value="Logística">Logística</option>
+          <option value="Vendas">Vendas</option>
+          <option value="RH">RH</option>
+          <option value="Visitante">Visitante</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Você já conhece a LocExpress?</label>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button class="btn-choice" id="btnYes" onclick="selectKnowsCompany(true)">
+            <i class="fas fa-check"></i> Sim
+          </button>
+          <button class="btn-choice" id="btnNo" onclick="selectKnowsCompany(false)">
+            <i class="fas fa-times"></i> Não
+          </button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="btnSubmitReg" onclick="submitRegistration()" style="margin-top: 20px;">
+        Começar &nbsp;<i class="fas fa-arrow-right"></i>
       </button>
     </div>
   </div>
@@ -598,7 +683,7 @@
       <div class="score-badge">⭐ <span id="scoreDisplay">0</span> pts</div>
     </div>
     <!-- Botão Voltar -->
-    <div style="margin-bottom:12px;">
+    <div style="margin-bottom:12px">
       <button class="btn-back" id="btnBack" onclick="prevPhase()">
         <i class="fas fa-arrow-left"></i> Voltar Fase
       </button>
@@ -731,9 +816,6 @@
 <script>
 // ==============================
 // DADOS DO JOGO — 10 FASES (LocExpress)
-// Sequência: Canteiro → Fundação → Demolição → Estrutura
-//            → Alvenaria → Instalações → Piso → Acabamento
-//            → Jardinagem → Limpeza
 // ==============================
 const PHASES = [
   {
@@ -741,139 +823,149 @@ const PHASES = [
     name: "Canteiro de Obras",
     icon: "🏕️",
     hint: "Antes de tudo precisamos montar o canteiro e garantir energia no local. Que equipamento fornece energia elétrica em obras sem rede?",
-    question: "No CANTEIRO DE OBRAS, precisamos de energia elétrica para operar as ferramentas. Qual equipamento gera energia no local?",
+    question: "No CANTEIRO DE OBRAS, precisamos de energia elétrica para operar as ferramentas. Qual equipamento é ideal?",
     options: [
-      { icon: "⚡", text: "Gerador de Energia", correct: true },
-      { icon: "🌀", text: "Betoneira", correct: false },
-      { icon: "💧", text: "Bomba d'água", correct: false }
+      { text: "Gerador de Energia", icon: "⚡", correct: true },
+      { text: "Betoneira", icon: "🔄", correct: false },
+      { text: "Compactador", icon: "🔨", correct: false },
+      { text: "Andaime", icon: "🪜", correct: false }
     ],
-    explanation: "O Gerador de Energia é indispensável no canteiro de obras! Ele fornece energia elétrica para iluminação, ferramentas e equipamentos em locais sem rede elétrica disponível. Sem ele, nada funciona!",
+    explanation: "O gerador fornece energia estável onde não há rede elétrica disponível.",
     svgStep: "ground"
   },
   {
     id: 2,
-    name: "Fundação — Perfuração",
+    name: "Fundação",
     icon: "🏗️",
-    hint: "Na fundação precisamos perfurar o solo para fixar as estacas da casa. Que equipamento motorizado faz esse furo profundo no terreno?",
-    question: "Na fase de FUNDAÇÃO, qual equipamento é utilizado para perfurar o solo e fixar as estacas que sustentarão toda a estrutura da casa?",
+    hint: "A base da casa precisa ser sólida. Para misturar o concreto da fundação com perfeição, o que usamos?",
+    question: "Para a FUNDAÇÃO, precisamos misturar cimento, areia e brita. Qual máquina faz isso?",
     options: [
-      { icon: "🌀", text: "Betoneira", correct: false },
-      { icon: "🪛", text: "Trado Motorizado (Perfuratriz)", correct: true },
-      { icon: "💥", text: "Martelete Rompedor", correct: false }
+      { text: "Martelete", icon: "⛏️", correct: false },
+      { text: "Betoneira", icon: "🔄", correct: true },
+      { text: "Furadeira", icon: "🌀", correct: false },
+      { text: "Serra Circular", icon: "🪚", correct: false }
     ],
-    explanation: "O Trado Motorizado (Perfuratriz) é o equipamento certo para a fundação! Com sua broca helicoidal, ele perfura o solo abrindo furos precisos e profundos para o assentamento das estacas que sustentarão toda a casa.",
+    explanation: "A betoneira garante a mistura homogênea do concreto para as sapatas e vigas.",
     svgStep: "foundation"
   },
   {
     id: 3,
-    name: "Fundação — Concretagem",
-    icon: "🏗️",
-    hint: "Com os furos prontos, precisamos misturar e lançar o concreto nas fundações. Que equipamento prepara a mistura de cimento, areia e brita?",
-    question: "Na CONCRETAGEM DA FUNDAÇÃO, precisamos misturar cimento, areia, brita e água para o concreto. Qual equipamento é utilizado?",
+    name: "Demolição",
+    icon: "💥",
+    hint: "Às vezes precisamos remover pedras ou estruturas antigas. Qual ferramenta é usada para quebrar concreto?",
+    question: "Na fase de DEMOLIÇÃO ou ajustes, qual equipamento é usado para quebrar pisos e concreto?",
     options: [
-      { icon: "🌀", text: "Betoneira", correct: true },
-      { icon: "🔨", text: "Martelete Rompedor", correct: false },
-      { icon: "🌿", text: "Roçadeira", correct: false }
+      { text: "Lixadeira", icon: "✨", correct: false },
+      { text: "Martelete Rompedor", icon: "⛏️", correct: true },
+      { text: "Parafusadeira", icon: "🔩", correct: false },
+      { text: "Nível Laser", icon: "🔴", correct: false }
     ],
-    explanation: "A Betoneira é o equipamento essencial para misturar o concreto! Ela gira continuamente garantindo uma mistura homogênea de cimento, areia, brita e água, produzindo concreto de qualidade para as fundações.",
-    svgStep: "walls-start"
+    explanation: "O martelete rompedor substitui a marreta com muito mais eficiência e menos esforço.",
+    svgStep: "foundation"
   },
   {
     id: 4,
-    name: "Demolição",
-    icon: "💥",
-    hint: "Às vezes é preciso demolir paredes ou quebrar concreto antigo. Que equipamento é o mais indicado para romper concreto e alvenaria?",
-    question: "Na fase de DEMOLIÇÃO, precisamos quebrar concreto e paredes de alvenaria resistentes. Qual equipamento usa impacto para romper estruturas?",
+    name: "Estrutura",
+    icon: "🔩",
+    hint: "Para subir as paredes e lajes com segurança em locais altos, o que o trabalhador precisa para se apoiar?",
+    question: "Para trabalhar na ESTRUTURA em locais elevados com segurança, montamos o:",
     options: [
-      { icon: "🔨", text: "Martelete Rompedor Elétrico", correct: true },
-      { icon: "🌀", text: "Betoneira", correct: false },
-      { icon: "🌿", text: "Cortador de Grama", correct: false }
+      { text: "Andaime", icon: "🪜", correct: true },
+      { text: "Compactador", icon: "🔨", correct: false },
+      { text: "Gerador", icon: "⚡", correct: false },
+      { text: "Cortador de Piso", icon: "📐", correct: false }
     ],
-    explanation: "O Martelete Rompedor Elétrico é o equipamento certo para demolição! Ele gera golpes de alta frequência que quebram concreto, alvenaria e rochas com eficiência. Muito mais rápido e preciso que o trabalho manual!",
-    svgStep: "walls"
+    explanation: "Os andaimes permitem o trabalho em altura com estabilidade e segurança.",
+    svgStep: "walls-start"
   },
   {
     id: 5,
-    name: "Estrutura",
-    icon: "🔩",
-    hint: "Na fase de estrutura, montamos andaimes para trabalhar em altura com segurança. Qual estrutura metálica permite isso?",
-    question: "Na fase de ESTRUTURA, os trabalhadores precisam executar serviços em altura com segurança. Qual equipamento é utilizado para isso?",
+    name: "Alvenaria",
+    icon: "🧱",
+    hint: "As paredes estão subindo! Para garantir que tudo esteja perfeitamente reto e nivelado, qual tecnologia usamos?",
+    question: "Na ALVENARIA, para alinhar paredes e conferir o prumo com precisão, usamos o:",
     options: [
-      { icon: "🔥", text: "Esmerilhadeira Angular", correct: false },
-      { icon: "🪜", text: "Torre de Andaime", correct: true },
-      { icon: "💧", text: "Compressor de Ar", correct: false }
+      { text: "Nível Laser", icon: "🔴", correct: true },
+      { text: "Martelete", icon: "⛏️", correct: false },
+      { text: "Lixadeira", icon: "✨", correct: false },
+      { text: "Betoneira", icon: "🔄", correct: false }
     ],
-    explanation: "A Torre de Andaime é fundamental na fase de estrutura! Ela é uma plataforma metálica regulável em altura que garante segurança e mobilidade para os trabalhadores executarem serviços em lajes, vigas e paredes altas.",
-    svgStep: "roof-start"
+    explanation: "O nível laser projeta linhas perfeitas, facilitando o alinhamento dos tijolos.",
+    svgStep: "walls"
   },
   {
     id: 6,
-    name: "Alvenaria",
-    icon: "🧱",
-    hint: "No levantamento das paredes, usamos serra para cortar tijolos e blocos no tamanho certo. Qual equipamento é ideal para esse corte?",
-    question: "Na fase de ALVENARIA, precisamos cortar tijolos, blocos cerâmicos e concreto. Qual equipamento realiza esses cortes com precisão?",
+    name: "Instalações",
+    icon: "⚡",
+    hint: "Hora de passar canos e fiação. Para abrir rasgos precisos nas paredes para os conduítes, o que usamos?",
+    question: "Para as INSTALAÇÕES, qual ferramenta abre sulcos nas paredes para passar a tubulação?",
     options: [
-      { icon: "🔩", text: "Parafusadeira", correct: false },
-      { icon: "🪚", text: "Serra Mármore (Cortadora)", correct: true },
-      { icon: "🌀", text: "Misturador de Argamassa", correct: false }
+      { text: "Cortador de Parede", icon: "🔪", correct: true },
+      { text: "Furadeira", icon: "🌀", correct: false },
+      { text: "Serra Tico-Tico", icon: "🪚", correct: false },
+      { text: "Compactador", icon: "🔨", correct: false }
     ],
-    explanation: "A Serra Mármore (Cortadora de Concreto) é o equipamento ideal para cortar tijolos, blocos e peças de concreto com precisão e velocidade. Seu disco diamantado garante cortes limpos e seguros na fase de alvenaria!",
-    svgStep: "roof"
+    explanation: "O cortador de parede faz rasgos limpos e na profundidade certa para os eletrodutos.",
+    svgStep: "roof-start"
   },
   {
     id: 7,
-    name: "Instalações",
-    icon: "⚡",
-    hint: "Para instalar tubulações elétricas e hidráulicas, precisamos cortar e abrir rasgos nas paredes. Quais equipamentos fazem isso com eficiência?",
-    question: "Nas INSTALAÇÕES elétricas e hidráulicas, precisamos abrir rasgos nas paredes para embutir tubos e fios. Quais equipamentos usamos?",
+    name: "Piso e Revestimento",
+    icon: "🪨",
+    hint: "O chão precisa ficar lindo! Para cortar porcelanatos e cerâmicas sem quebrar, qual o equipamento?",
+    question: "No PISO, para cortar azulejos e porcelanatos com precisão, utilizamos o:",
     options: [
-      { icon: "🪚", text: "Martelete / Serra Mármore", correct: true },
-      { icon: "🌿", text: "Aparador de Cerca Viva", correct: false },
-      { icon: "🧹", text: "Aspirador Industrial", correct: false }
+      { text: "Cortador de Piso", icon: "📐", correct: true },
+      { text: "Lixadeira", icon: "✨", correct: false },
+      { text: "Martelete", icon: "⛏️", correct: false },
+      { text: "Furadeira", icon: "🌀", correct: false }
     ],
-    explanation: "O Martelete e a Serra Mármore são os equipamentos certos para instalações! O martelete abre rasgos e furos nas paredes de alvenaria, enquanto a Serra Mármore corta com precisão os blocos e concreto para embutir tubulações e fiações.",
-    svgStep: "door"
+    explanation: "O cortador de piso (ou riscador) garante cortes retos e acabamento perfeito nas peças.",
+    svgStep: "roof"
   },
   {
     id: 8,
-    name: "Piso de Concreto",
-    icon: "🪨",
-    hint: "Após lançar o concreto no piso, precisamos nivelar e alisar a superfície mecanicamente. Qual equipamento giratório faz isso?",
-    question: "Na fase de PISO DE CONCRETO, após o lançamento, precisamos nivelar e alisar a superfície com precisão. Qual equipamento é usado?",
+    name: "Acabamento",
+    icon: "🎨",
+    hint: "Paredes prontas para a pintura! Para deixar a massa corrida lisinha antes de pintar, o que facilita o trabalho?",
+    question: "No ACABAMENTO, para lixar paredes e tetos de forma rápida e com menos poeira, usamos a:",
     options: [
-      { icon: "🧹", text: "Vassoura Industrial", correct: false },
-      { icon: "🌀", text: "Alisadora de Concreto", correct: true },
-      { icon: "🔩", text: "Furadeira de Impacto", correct: false }
+      { text: "Lixadeira de Parede", icon: "✨", correct: true },
+      { text: "Parafusadeira", icon: "🔩", correct: false },
+      { text: "Betoneira", icon: "🔄", correct: false },
+      { text: "Serra Circular", icon: "🪚", correct: false }
     ],
-    explanation: "A Alisadora de Concreto é o equipamento certo para o piso! Suas pás giratórias nivelam e alisam mecanicamente a superfície do concreto fresco, garantindo um piso perfeitamente plano e liso com acabamento profissional.",
-    svgStep: "windows"
+    explanation: "A lixadeira orbital ou de parede agiliza muito a preparação para a pintura.",
+    svgStep: "door"
   },
   {
     id: 9,
-    name: "Acabamento",
-    icon: "🎨",
-    hint: "No acabamento, precisamos lixar paredes e tetos para deixar a superfície lisa antes de pintar. Que equipamento de haste longa alcança essas áreas?",
-    question: "Na fase de ACABAMENTO, precisamos lixar superfícies de paredes e tetos para prepará-las para pintura. Qual equipamento é o mais indicado?",
+    name: "Jardinagem",
+    icon: "🌿",
+    hint: "A casa está pronta, agora falta o jardim! Para aparar a grama e deixar o quintal impecável, o que usamos?",
+    question: "Na JARDINAGEM final, qual equipamento é essencial para manter o gramado bonito?",
     options: [
-      { icon: "🌀", text: "Lixadeira / Girafa", correct: true },
-      { icon: "🌿", text: "Soprador de Folhas", correct: false },
-      { icon: "🔩", text: "Trado Motorizado", correct: false }
+      { text: "Cortador de Grama", icon: "🌱", correct: true },
+      { text: "Soprador", icon: "💨", correct: false },
+      { text: "Motosserra", icon: "🪵", correct: false },
+      { text: "Lavadora", icon: "💧", correct: false }
     ],
-    explanation: "A Lixadeira Girafa é o equipamento ideal para o acabamento! Com sua haste telescópica longa, ela alcança paredes altas e tetos com facilidade, lixando as superfícies e removendo imperfeições para preparar para a pintura final.",
-    svgStep: "chimney"
+    explanation: "O cortador de grama garante a altura uniforme e a beleza da área externa.",
+    svgStep: "windows"
   },
   {
     id: 10,
-    name: "Jardinagem e Limpeza",
-    icon: "🌿",
-    hint: "Obra concluída! Agora precisamos cuidar do jardim e limpar o ambiente. Qual equipamento mantém a grama aparada e o jardim bonito?",
-    question: "Na fase final de JARDINAGEM, precisamos aparar a grama e manter o jardim organizado. Qual equipamento é o mais indicado?",
+    name: "Limpeza Final",
+    icon: "🧹",
+    hint: "Obra concluída! Para remover aquela sujeira pesada e o resto de cimento do chão, o que é melhor?",
+    question: "Na LIMPEZA FINAL, para lavar calçadas e fachadas com pressão e economia de água, usamos a:",
     options: [
-      { icon: "🌀", text: "Betoneira", correct: false },
-      { icon: "🌿", text: "Cortador de Grama / Roçadeira", correct: true },
-      { icon: "🔨", text: "Martelete Rompedor", correct: false }
+      { text: "Lavadora de Alta Pressão", icon: "💧", correct: true },
+      { text: "Aspirador de Pó", icon: "🌪️", correct: false },
+      { text: "Vassoura", icon: "🧹", correct: false },
+      { text: "Soprador", icon: "💨", correct: false }
     ],
-    explanation: "O Cortador de Grama e a Roçadeira são os equipamentos certos para jardinagem! O cortador mantém o gramado nivelado, enquanto a roçadeira alcança cantos e bordas. E para finalizar, o aspirador industrial cuida da limpeza da obra!",
+    explanation: "A lavadora de alta pressão remove sujeiras incrustadas com facilidade.",
     svgStep: "complete"
   }
 ];
@@ -882,123 +974,177 @@ const PHASES = [
 // ESTADO DO JOGO
 // ==============================
 let state = {
+  user: {
+    name: "",
+    area: "",
+    knowsCompany: null
+  },
   currentPhase: 0,
   score: 0,
   lives: 3,
   correctAnswers: 0,
-  answered: false
+  answered: false,
+  history: []
 };
 
 // ==============================
-// FUNÇÕES PRINCIPAIS
+// NAVEGAÇÃO ENTRE TELAS
 // ==============================
-function startGame() {
-  state = { currentPhase: 0, score: 0, lives: 3, correctAnswers: 0, answered: false, history: [] };
-  showScreen('screen-game');
-  buildMiniPhasesList();
-  loadPhase(0);
-}
-
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo(0,0);
 }
 
-function buildMiniPhasesList() {
+// ==============================
+// CADASTRO
+// ==============================
+function showRegistration() {
+  // Limpa o formulário
+  document.getElementById('userName').value = '';
+  document.getElementById('userArea').value = '';
+  document.getElementById('btnYes').classList.remove('selected');
+  document.getElementById('btnNo').classList.remove('selected');
+  state.user.knowsCompany = null;
+  
+  showScreen('screen-register');
+}
+
+function selectKnowsCompany(value) {
+  state.user.knowsCompany = value;
+  document.getElementById('btnYes').classList.toggle('selected', value === true);
+  document.getElementById('btnNo').classList.toggle('selected', value === false);
+}
+
+function submitRegistration() {
+  const nameInput = document.getElementById('userName');
+  const areaInput = document.getElementById('userArea');
+  
+  if (!nameInput.value.trim()) {
+    alert("Por favor, preencha seu nome para continuar.");
+    return;
+  }
+  
+  if (!areaInput.value) {
+    alert("Por favor, selecione sua área para continuar.");
+    return;
+  }
+  
+  if (state.user.knowsCompany === null) {
+    alert("Por favor, responda se você conhece a LocExpress.");
+    return;
+  }
+  
+  state.user.name = nameInput.value.trim();
+  state.user.area = areaInput.value;
+  state.user.registeredAt = new Date().toLocaleString('pt-BR');
+  
+  startGame();
+}
+
+// ==============================
+// LÓGICA DO JOGO
+// ==============================
+function startGame() {
+  state.currentPhase = 0;
+  state.score = 0;
+  state.lives = 3;
+  state.correctAnswers = 0;
+  state.history = [];
+  
+  updateLivesBar();
+  document.getElementById('scoreDisplay').textContent = "0";
+  loadPhase(0);
+  showScreen('screen-game');
+}
+
+function loadPhase(index, isBack = false) {
+  const phase = PHASES[index];
+  state.answered = false;
+  
+  // UI Updates
+  document.getElementById('phaseBadge').textContent = `Fase ${index + 1}/${PHASES.length}`;
+  document.getElementById('qPhaseLabel').textContent = `Fase ${index + 1} — ${phase.name}`;
+  document.getElementById('questionText').textContent = phase.question;
+  document.getElementById('masterHint').textContent = phase.hint;
+  
+  // Progress
+  const pct = Math.round((index / PHASES.length) * 100);
+  document.getElementById('progressPct').textContent = `${pct}%`;
+  document.getElementById('progressFill').style.width = `${pct}%`;
+  
+  // Options
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+  phase.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-icon">${opt.icon}</span> <span>${opt.text}</span>`;
+    btn.onclick = () => checkAnswer(i);
+    grid.appendChild(btn);
+  });
+  
+  // Reset Feedback & Buttons
+  hideFeedback();
+  document.getElementById('btnNext').classList.remove('show');
+  
+  // Botão Voltar (só aparece a partir da fase 2 e se não respondeu ainda)
+  const btnBack = document.getElementById('btnBack');
+  if (index > 0) {
+    btnBack.classList.add('show');
+  } else {
+    btnBack.classList.remove('show');
+  }
+
+  // Mini lista lateral
+  updateMiniPhases(index);
+}
+
+function updateMiniPhases(currentIdx) {
   const list = document.getElementById('miniPhasesList');
   list.innerHTML = '';
   PHASES.forEach((p, i) => {
-    const div = document.createElement('div');
-    div.className = 'mini-phase-item';
-    div.id = `mini-phase-${i}`;
-    div.innerHTML = `<div class="dot"></div>${p.icon} ${p.name}`;
-    list.appendChild(div);
+    const item = document.createElement('div');
+    item.className = 'mini-phase-item';
+    if (i === currentIdx) item.classList.add('active');
+    if (i < currentIdx) item.classList.add('done');
+    
+    const statusIcon = i < currentIdx ? '✅' : (i === currentIdx ? '🚧' : '🔒');
+    item.innerHTML = `<span>${statusIcon}</span> <span>${p.name}</span>`;
+    list.appendChild(item);
   });
 }
 
-function loadPhase(idx, isGoingBack) {
-  const phase = PHASES[idx];
-  state.answered = false;
-
-  // Topbar
-  document.getElementById('phaseBadge').textContent = `Fase ${idx+1}/${PHASES.length}`;
-  document.getElementById('scoreDisplay').textContent = state.score;
-  updateLivesBar();
-
-  // Progresso
-  const pct = Math.round((idx / PHASES.length) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressPct').textContent = pct + '%';
-
-  // Dica
-  document.getElementById('masterHint').textContent = phase.hint;
-
-  // Pergunta
-  document.getElementById('qPhaseLabel').textContent = `Fase ${idx+1} — ${phase.name}`;
-  document.getElementById('questionText').textContent = phase.question;
-
-  // Opções (embaralhadas, exceto ao voltar)
-  const opts = isGoingBack
-    ? [...phase.options]
-    : [...phase.options].sort(() => Math.random() - 0.5);
-  const grid = document.getElementById('optionsGrid');
-  grid.innerHTML = '';
-  opts.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.innerHTML = `<span class="opt-icon">${opt.icon}</span><span>${opt.text}</span>`;
-    btn.onclick = () => selectOption(btn, opt.correct, phase);
-    grid.appendChild(btn);
-  });
-
-  // Feedback e botão próximo
-  hideFeedback();
-  document.getElementById('btnNext').classList.remove('show');
-
-  // Botão Voltar: visível a partir da fase 2 (e antes de responder)
-  const btnBack = document.getElementById('btnBack');
-  btnBack.classList.toggle('show', idx > 0);
-
-  // Mini fases
-  document.querySelectorAll('.mini-phase-item').forEach((el, i) => {
-    el.classList.remove('done', 'current');
-    if (i < idx) el.classList.add('done');
-    else if (i === idx) el.classList.add('current');
-  });
-}
-
-function selectOption(btn, isCorrect, phase) {
+function checkAnswer(optIdx) {
   if (state.answered) return;
   state.answered = true;
-
-  // Salva snapshot para restaurar ao voltar
-  if (!state.history) state.history = [];
+  
+  const phase = PHASES[state.currentPhase];
+  const selected = phase.options[optIdx];
+  const btns = document.querySelectorAll('.option-btn');
+  
+  // Salva snapshot para o "Voltar"
   state.history[state.currentPhase] = {
     scoreSnapshot: state.score,
     livesSnapshot: state.lives,
     correctSnapshot: state.correctAnswers
   };
 
-  // Desabilita todas as opções
-  document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
-
-  if (isCorrect) {
-    btn.classList.add('correct');
+  if (selected.correct) {
     state.score += 100;
     state.correctAnswers++;
     document.getElementById('scoreDisplay').textContent = state.score;
+    btns[optIdx].classList.add('correct');
     showFeedback(true, phase.explanation);
-    launchConfetti();
+    launchConfetti(15);
   } else {
-    btn.classList.add('wrong');
     state.lives--;
     updateLivesBar();
-    document.querySelectorAll('.option-btn').forEach(b => {
-      const txt = b.querySelector('span:last-child').textContent;
-      const correct = phase.options.find(o => o.text === txt && o.correct);
-      if (correct) b.classList.add('correct');
-    });
+    btns[optIdx].classList.add('wrong');
+    // Acha a correta para mostrar
+    const correctIdx = phase.options.findIndex(o => o.correct);
+    btns[correctIdx].classList.add('correct');
+    
     showFeedback(false, `A resposta correta é: ${phase.options.find(o=>o.correct).text}. ${phase.explanation}`);
     if (state.lives <= 0) {
       setTimeout(() => {
@@ -1055,6 +1201,9 @@ function endGame() {
   document.getElementById('finalScore').textContent = state.score;
   document.getElementById('finalCorrect').textContent = `${state.correctAnswers}/${PHASES.length}`;
   document.getElementById('finalLives').textContent = state.lives;
+
+  // Salva o desempenho
+  savePlayerPerformance(rank, title);
 
   showScreen('screen-final');
   launchConfetti(80);
@@ -1144,9 +1293,161 @@ function launchConfetti(count = 40) {
   }
 }
 
+// ==============================
+// PERSISTÊNCIA DE DADOS
+// ==============================
+
+// CONFIGURACAO DO GOOGLE SHEETS
+const GOOGLE_SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbyU-DZy0IYGR_uzlc6GKGb-QQ0kNFyx1UydeSfUabHK_-INq5RtaduWVlgb5g7FksL44g/exec';
+
+function savePlayerPerformance(rank, title) {
+  const performance = {
+    name: state.user.name,
+    area: state.user.area,
+    knowsCompany: state.user.knowsCompany ? 'Sim' : 'Não',
+    registeredAt: state.user.registeredAt,
+    score: state.score,
+    correctAnswers: state.correctAnswers,
+    totalPhases: PHASES.length,
+    accuracy: Math.round((state.correctAnswers / PHASES.length) * 100),
+    lives: state.lives,
+    rank: rank,
+    title: title,
+    completedAt: new Date().toLocaleString('pt-BR')
+  };
+  
+  // Recupera histórico anterior
+  let history = JSON.parse(localStorage.getItem('constructorMasterHistory')) || [];
+  
+  // Adiciona novo registro
+  history.push(performance);
+  
+  // Salva no localStorage
+  localStorage.setItem('constructorMasterHistory', JSON.stringify(history));
+  
+  // Log no console para debug
+  console.log('✅ Desempenho salvo localmente:', performance);
+  console.log('📊 Histórico completo:', history);
+  
+  // Envia para o Google Sheets
+  sendToGoogleSheets(performance);
+}
+
+function sendToGoogleSheets(performance) {
+  // Verifica se a URL foi configurada
+  if (GOOGLE_SHEETS_API_URL.includes('SEU_SCRIPT_ID')) {
+    console.warn('⚠️ Google Sheets nao configurado. Configure a URL do Apps Script no codigo.');
+    return;
+  }
+  
+  // Prepara os parâmetros para envio via GET
+  const params = new URLSearchParams();
+  params.append('name', performance.name);
+  params.append('area', performance.area);
+  params.append('knowsCompany', performance.knowsCompany);
+  params.append('registeredAt', performance.registeredAt);
+  params.append('score', performance.score);
+  params.append('correctAnswers', performance.correctAnswers);
+  params.append('totalPhases', performance.totalPhases);
+  params.append('accuracy', performance.accuracy);
+  params.append('lives', performance.lives);
+  params.append('rank', performance.rank);
+  params.append('completedAt', performance.completedAt);
+  
+  // Envia via GET
+  const urlComParams = GOOGLE_SHEETS_API_URL + '?' + params.toString();
+  
+  fetch(urlComParams, {
+    method: 'GET',
+    mode: 'no-cors'
+  })
+  .then(() => {
+    console.log('✅ Dados enviados para Google Sheets com sucesso!');
+  })
+  .catch(error => {
+    console.error('❌ Erro ao enviar para Google Sheets:', error);
+    console.log('💡 Dica: Verifique se a URL do Apps Script esta correta e se o script foi publicado como "Qualquer pessoa".');
+  });
+}
+
+function getPlayerHistory() {
+  return JSON.parse(localStorage.getItem('constructorMasterHistory')) || [];
+}
+
+function exportPerformanceData() {
+  const history = getPlayerHistory();
+  const csv = [
+    ['Nome', 'Area', 'Conhece_Empresa', 'Data_Cadastro', 'Pontuacao', 'Acertos', 'Taxa_Acerto', 'Vidas', 'Rank', 'Data_Conclusao'],
+    ...history.map(p => [
+      p.name,
+      p.area,
+      p.knowsCompany,
+      p.registeredAt,
+      p.score,
+      `${p.correctAnswers}/${p.totalPhases}`,
+      p.accuracy,
+      p.lives,
+      p.rank,
+      p.completedAt
+    ])
+  ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+  
+  // Cria download
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.setAttribute('href', url);
+  link.setAttribute('download', `desempenho_constructor_master_${new Date().toISOString().split('T')[0]}.csv`);
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function showPerformanceStats() {
+  const history = getPlayerHistory();
+  if (history.length === 0) {
+    alert('Nenhum jogo registrado ainda.');
+    return;
+  }
+  
+  const stats = {
+    totalGames: history.length,
+    averageScore: Math.round(history.reduce((sum, p) => sum + p.score, 0) / history.length),
+    averageAccuracy: Math.round(history.reduce((sum, p) => sum + p.accuracy, 0) / history.length),
+    bestScore: Math.max(...history.map(p => p.score)),
+    perfectGames: history.filter(p => p.rank === 'S').length
+  };
+  
+  console.log('📈 ESTATÍSTICAS GERAIS:');
+  console.log(`Total de Jogos: ${stats.totalGames}`);
+  console.log(`Pontuação Média: ${stats.averageScore}`);
+  console.log(`Taxa de Acerto Média: ${stats.averageAccuracy}%`);
+  console.log(`Melhor Pontuação: ${stats.bestScore}`);
+  console.log(`Jogos Perfeitos (Rank S): ${stats.perfectGames}`);
+  console.log('\n📋 HISTÓRICO COMPLETO:', history);
+  
+  alert(`📊 Estatísticas Gerais:\n\nTotal de Jogos: ${stats.totalGames}\nPontuação Média: ${stats.averageScore}\nTaxa de Acerto: ${stats.averageAccuracy}%\nMelhor Pontuação: ${stats.bestScore}\nJogos Perfeitos: ${stats.perfectGames}\n\nVeja o console (F12) para mais detalhes.`);
+}
+
 // Inicializa casa com estado base
 window.addEventListener('DOMContentLoaded', () => {
   updateHouseSvg('ground');
+  
+  
+  console.log('%c🎮 Constructor Master - Modo Debug', 'font-size: 16px; font-weight: bold; color: #FF6B00;');
+  console.log('Comandos disponíveis no console:');
+  console.log('  showPerformanceStats() - Ver estatísticas gerais');
+  console.log('  getPlayerHistory() - Ver histórico completo');
+  console.log('  exportPerformanceData() - Baixar dados em CSV');
+  console.log('  localStorage.clear() - Limpar todos os dados');
+  
+  // Verifica configuracao do Google Sheets
+  if (!GOOGLE_SHEETS_API_URL.includes('SEU_SCRIPT_ID')) {
+    console.log('%c✅ Google Sheets esta configurado!', 'color: #22C55E; font-weight: bold;');
+  } else {
+    console.log('%c⚠️ Google Sheets nao esta configurado. Veja as instrucoes no console.', 'color: #FF6B00; font-weight: bold;');
+  }
 });
 </script>
 </body>
