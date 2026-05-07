@@ -1,0 +1,688 @@
+// ==============================
+// DADOS DO JOGO — 10 FASES (LocExpress)
+// ==============================
+const PHASES = [
+  {
+    id: 1,
+    name: "Canteiro de Obras",
+    icon: "🏕️",
+    hint: "Antes de tudo precisamos montar o canteiro e garantir energia no local. Que equipamento fornece energia elétrica em obras sem rede?",
+    question: "No CANTEIRO DE OBRAS, precisamos de energia elétrica para operar as ferramentas. Qual equipamento é ideal?",
+    options: [
+      { text: "Gerador de Energia", icon: "⚡", correct: true },
+      { text: "Betoneira", icon: "🔄", correct: false },
+      { text: "Compactador", icon: "🔨", correct: false },
+      { text: "Andaime", icon: "🪜", correct: false }
+    ],
+    explanation: "O gerador fornece energia estável onde não há rede elétrica disponível.",
+    svgStep: "ground"
+  },
+  {
+    id: 2,
+    name: "Fundação",
+    icon: "🏗️",
+    hint: "A base da casa precisa ser sólida. Para misturar o concreto da fundação com perfeição, o que usamos?",
+    question: "Para a FUNDAÇÃO, precisamos misturar cimento, areia e brita. Qual máquina faz isso?",
+    options: [
+      { text: "Martelete", icon: "⛏️", correct: false },
+      { text: "Betoneira", icon: "🔄", correct: true },
+      { text: "Furadeira", icon: "🌀", correct: false },
+      { text: "Serra Circular", icon: "🪚", correct: false }
+    ],
+    explanation: "A betoneira garante a mistura homogênea do concreto para as sapatas e vigas.",
+    svgStep: "foundation"
+  },
+  {
+    id: 3,
+    name: "Demolição",
+    icon: "💥",
+    hint: "Às vezes precisamos remover pedras ou estruturas antigas. Qual ferramenta é usada para quebrar concreto?",
+    question: "Na fase de DEMOLIÇÃO ou ajustes, qual equipamento é usado para quebrar pisos e concreto?",
+    options: [
+      { text: "Lixadeira", icon: "✨", correct: false },
+      { text: "Martelete Rompedor", icon: "⛏️", correct: true },
+      { text: "Parafusadeira", icon: "🔩", correct: false },
+      { text: "Nível Laser", icon: "🔴", correct: false }
+    ],
+    explanation: "O martelete rompedor substitui a marreta com muito mais eficiência e menos esforço.",
+    svgStep: "foundation"
+  },
+  {
+    id: 4,
+    name: "Estrutura",
+    icon: "🔩",
+    hint: "Para subir as paredes e lajes com segurança em locais altos, o que o trabalhador precisa para se apoiar?",
+    question: "Para trabalhar na ESTRUTURA em locais elevados com segurança, montamos o:",
+    options: [
+      { text: "Andaime", icon: "🪜", correct: true },
+      { text: "Compactador", icon: "🔨", correct: false },
+      { text: "Gerador", icon: "⚡", correct: false },
+      { text: "Cortador de Piso", icon: "📐", correct: false }
+    ],
+    explanation: "Os andaimes permitem o trabalho em altura com estabilidade e segurança.",
+    svgStep: "walls-start"
+  },
+  {
+    id: 5,
+    name: "Alvenaria",
+    icon: "🧱",
+    hint: "As paredes estão subindo! Para garantir que tudo esteja perfeitamente reto e nivelado, qual tecnologia usamos?",
+    question: "Na ALVENARIA, para alinhar paredes e conferir o prumo com precisão, usamos o:",
+    options: [
+      { text: "Martelete", icon: "⛏️", correct: false },
+      { text: "Lixadeira", icon: "✨", correct: false },
+      { text: "Betoneira", icon: "🔄", correct: false },
+      { text: "Nível Laser", icon: "🔴", correct: true }
+    ],
+    explanation: "O nível laser projeta linhas perfeitas, facilitando o alinhamento dos tijolos.",
+    svgStep: "walls"
+  },
+  {
+    id: 6,
+    name: "Instalações",
+    icon: "⚡",
+    hint: "Hora de passar canos e fiação. Para abrir rasgos precisos nas paredes para os conduítes, o que usamos?",
+    question: "Para as INSTALAÇÕES, qual ferramenta abre sulcos nas paredes para passar a tubulação?",
+    options: [
+      { text: "Furadeira", icon: "🌀", correct: false },
+      { text: "Serra Tico-Tico", icon: "🪚", correct: false },
+      { text: "Cortador de Parede", icon: "🔪", correct: true },
+      { text: "Compactador", icon: "🔨", correct: false }
+    ],
+    explanation: "O cortador de parede faz rasgos limpos e na profundidade certa para os eletrodutos.",
+    svgStep: "roof-start"
+  },
+  {
+    id: 7,
+    name: "Piso e Revestimento",
+    icon: "🪨",
+    hint: "O chão precisa ficar lindo! Para cortar porcelanatos e cerâmicas sem quebrar, qual o equipamento?",
+    question: "No PISO, para cortar azulejos e porcelanatos com precisão, utilizamos o:",
+    options: [
+      { text: "Lixadeira", icon: "✨", correct: false },
+      { text: "Martelete", icon: "⛏️", correct: false },
+      { text: "Furadeira", icon: "🌀", correct: false },
+      { text: "Cortador de Piso", icon: "📐", correct: true },
+    ],
+    explanation: "O cortador de piso (ou riscador) garante cortes retos e acabamento perfeito nas peças.",
+    svgStep: "roof"
+  },
+  {
+    id: 8,
+    name: "Acabamento",
+    icon: "🎨",
+    hint: "Paredes prontas para a pintura! Para deixar a massa corrida lisinha antes de pintar, o que facilita o trabalho?",
+    question: "No ACABAMENTO, para lixar paredes e tetos de forma rápida e com menos poeira, usamos a:",
+    options: [
+      { text: "Lixadeira de Parede", icon: "✨", correct: true },
+      { text: "Parafusadeira", icon: "🔩", correct: false },
+      { text: "Betoneira", icon: "🔄", correct: false },
+      { text: "Serra Circular", icon: "🪚", correct: false }
+    ],
+    explanation: "A lixadeira orbital ou de parede agiliza muito a preparação para a pintura.",
+    svgStep: "door"
+  },
+  {
+    id: 9,
+    name: "Jardinagem",
+    icon: "🌿",
+    hint: "A casa está pronta, agora falta o jardim! Para aparar a grama e deixar o quintal impecável, o que usamos?",
+    question: "Na JARDINAGEM final, qual equipamento é essencial para manter o gramado bonito?",
+    options: [
+      { text: "Soprador", icon: "💨", correct: false },
+      { text: "Motosserra", icon: "🪵", correct: false },
+      { text: "Cortador de Grama", icon: "🌱", correct: true },
+      { text: "Lavadora", icon: "💧", correct: false }
+    ],
+    explanation: "O cortador de grama garante a altura uniforme e a beleza da área externa.",
+    svgStep: "windows"
+  },
+  {
+    id: 10,
+    name: "Limpeza Final",
+    icon: "🧹",
+    hint: "Obra concluída! Para remover aquela sujeira pesada e o resto de cimento do chão, o que é melhor?",
+    question: "Na LIMPEZA FINAL, para lavar calçadas e fachadas com pressão e economia de água, usamos a:",
+    options: [
+      { text: "Lavadora de Alta Pressão", icon: "💧", correct: true },
+      { text: "Aspirador de Pó", icon: "🌪️", correct: false },
+      { text: "Vassoura", icon: "🧹", correct: false },
+      { text: "Soprador", icon: "💨", correct: false }
+    ],
+    explanation: "A lavadora de alta pressão remove sujeiras incrustadas com facilidade.",
+    svgStep: "complete"
+  }
+];
+
+// ==============================
+// ESTADO DO JOGO
+// ==============================
+let state = {
+  user: {
+    name: "",
+    area: "",
+    knowsCompany: null
+  },
+  currentPhase: 0,
+  score: 0,
+  lives: 3,
+  correctAnswers: 0,
+  answered: false,
+  history: []
+};
+
+// ==============================
+// NAVEGAÇÃO ENTRE TELAS
+// ==============================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ==============================
+// CADASTRO
+// ==============================
+function showRegistration() {
+  // Se já há um usuário registrado, vai direto para o jogo
+  if (state.user.name && state.user.phone && state.user.knowsCompany !== null) {
+    startGame();
+    return;
+  }
+  
+  // Limpa o formulário
+  document.getElementById('userName').value = '';
+  document.getElementById('userPhone').value = '';
+  document.getElementById('btnYes').classList.remove('selected');
+  document.getElementById('btnNo').classList.remove('selected');
+  state.user.knowsCompany = null;
+  
+  showScreen('screen-register');
+}
+
+function selectKnowsCompany(value) {
+  state.user.knowsCompany = value;
+  document.getElementById('btnYes').classList.toggle('selected', value === true);
+  document.getElementById('btnNo').classList.toggle('selected', value === false);
+}
+
+function submitRegistration() {
+  const nameInput = document.getElementById('userName');
+  const phoneInput = document.getElementById('userPhone');
+  
+  if (!nameInput.value.trim()) {
+    alert("Por favor, preencha seu nome para continuar.");
+    return;
+  }
+  
+  // Valida telefone (deve ter 11 dígitos)
+  const phoneDigits = phoneInput.value.replace(/\D/g, '');
+  if (phoneDigits.length !== 11) {
+    alert("Por favor, preencha um telefone válido com 11 dígitos (DDD + 9 dígitos).");
+    return;
+  }
+  
+  if (state.user.knowsCompany === null) {
+    alert("Por favor, responda se você conhece a LocExpress.");
+    return;
+  }
+  
+  state.user.name = nameInput.value.trim();
+  // Salva apenas os números no estado para garantir o envio correto
+  state.user.phone = phoneInput.value.replace(/\D/g, '');
+  state.user.registeredAt = new Date().toLocaleString('pt-BR');
+  
+  startGame();
+}
+
+// ==============================
+// LÓGICA DO JOGO
+// ==============================
+function startGame() {
+  state.currentPhase = 0;
+  state.score = 0;
+  state.lives = 3;
+  state.correctAnswers = 0;
+  state.history = [];
+  
+  updateLivesBar();
+  document.getElementById('scoreDisplay').textContent = "0";
+  loadPhase(0);
+  showScreen('screen-game');
+}
+
+function loadPhase(index, isBack = false) {
+  const phase = PHASES[index];
+  state.answered = false;
+  
+  // UI Updates
+  document.getElementById('phaseBadge').textContent = `Fase ${index + 1}/${PHASES.length}`;
+  document.getElementById('qPhaseLabel').textContent = `Fase ${index + 1} — ${phase.name}`;
+  
+  // Atualiza saudação com o nome do usuário em todas as fases
+  document.getElementById('hintGreeting').textContent = `Olá, ${state.user.name}!`;
+  document.getElementById('questionText').textContent = phase.question;
+  // Coloca o nome BETO em negrito antes da dica
+  document.getElementById('masterHint').innerHTML = `<strong>BETO:</strong> ${phase.hint}`;
+  
+  // Progress
+  const pct = Math.round((index / PHASES.length) * 100);
+  document.getElementById('progressPct').textContent = `${pct}%`;
+  document.getElementById('progressFill').style.width = `${pct}%`;
+  
+  // Options
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+  phase.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-icon">${opt.icon}</span> <span>${opt.text}</span>`;
+    btn.onclick = () => checkAnswer(i);
+    grid.appendChild(btn);
+  });
+  
+  // Reset Feedback & Buttons
+  hideFeedback();
+  document.getElementById('btnNext').classList.remove('show');
+  
+  // Botão Voltar (só aparece a partir da fase 2 e se não respondeu ainda)
+  const btnBack = document.getElementById('btnBack');
+  if (index > 0) {
+    btnBack.classList.add('show');
+  } else {
+    btnBack.classList.remove('show');
+  }
+
+  // Mini lista lateral
+  updateMiniPhases(index);
+}
+
+function updateMiniPhases(currentIdx) {
+  const list = document.getElementById('miniPhasesList');
+  list.innerHTML = '';
+  PHASES.forEach((p, i) => {
+    const item = document.createElement('div');
+    item.className = 'mini-phase-item';
+    if (i === currentIdx) item.classList.add('active');
+    if (i < currentIdx) item.classList.add('done');
+    
+    const statusIcon = i < currentIdx ? '✅' : (i === currentIdx ? '🚧' : '🔒');
+    item.innerHTML = `<span>${statusIcon}</span> <span>${p.name}</span>`;
+    list.appendChild(item);
+  });
+}
+
+function checkAnswer(optIdx) {
+  if (state.answered) return;
+  state.answered = true;
+  
+  const phase = PHASES[state.currentPhase];
+  const selected = phase.options[optIdx];
+  const btns = document.querySelectorAll('.option-btn');
+  
+  // Salva snapshot para o "Voltar"
+  state.history[state.currentPhase] = {
+    scoreSnapshot: state.score,
+    livesSnapshot: state.lives,
+    correctSnapshot: state.correctAnswers
+  };
+
+  if (selected.correct) {
+    state.score += 100;
+    state.correctAnswers++;
+    document.getElementById('scoreDisplay').textContent = state.score;
+    btns[optIdx].classList.add('correct');
+    showFeedback(true, phase.explanation);
+    launchConfetti(15);
+  } else {
+    state.lives--;
+    updateLivesBar();
+    btns[optIdx].classList.add('wrong');
+    // Acha a correta para mostrar
+    const correctIdx = phase.options.findIndex(o => o.correct);
+    btns[correctIdx].classList.add('correct');
+    
+    showFeedback(false, `A resposta correta é: ${phase.options.find(o=>o.correct).text}. ${phase.explanation}`);
+    if (state.lives <= 0) {
+      // Salva a tentativa mesmo com Game Over
+      const rank = 'C';
+      const title = '🪚 Aprendiz de Manutenção';
+      savePlayerPerformance(rank, title, true);
+      
+      setTimeout(() => {
+        document.getElementById('goScore').textContent = state.score;
+        showScreen('screen-gameover');
+      }, 2200);
+      return;
+    }
+  }
+
+  // Atualiza casa
+  updateHouseSvg(phase.svgStep);
+
+  // Mostra próximo, oculta voltar (já respondeu)
+  document.getElementById('btnNext').classList.add('show');
+  document.getElementById('btnBack').classList.remove('show');
+}
+
+function prevPhase() {
+  // Só permite voltar se ainda não respondeu
+  if (state.currentPhase <= 0 || state.answered) return;
+  const prev = state.currentPhase - 1;
+  // Restaura pontuação e vidas do estado anterior
+  if (state.history && state.history[prev]) {
+    const snap = state.history[prev];
+    state.score = snap.scoreSnapshot;
+    state.lives = snap.livesSnapshot;
+    state.correctAnswers = snap.correctSnapshot;
+  }
+  state.currentPhase = prev;
+  loadPhase(prev, true);
+}
+
+function nextPhase() {
+  state.currentPhase++;
+  if (state.currentPhase >= PHASES.length) {
+    endGame();
+  } else {
+    loadPhase(state.currentPhase);
+  }
+}
+
+function endGame() {
+  // Rank
+  let rank, title;
+  const total = PHASES.length;
+  if (state.correctAnswers === total)             { rank = 'S'; title = '🏆 Mestre da Manutenção Supremo!'; }
+  else if (state.correctAnswers >= total * 0.8)   { rank = 'A'; title = '⭐ Técnico Expert em Manutenção'; }
+  else if (state.correctAnswers >= total * 0.6)   { rank = 'B'; title = '🔨 Auxiliar Profissional'; }
+  else                                            { rank = 'C'; title = '🪚 Aprendiz de Manutenção'; }
+
+  document.getElementById('finalRank').textContent = rank;
+  document.getElementById('finalTitle').textContent = title;
+  document.getElementById('finalScore').textContent = state.score;
+  document.getElementById('finalCorrect').textContent = `${state.correctAnswers}/${PHASES.length}`;
+  document.getElementById('finalLives').textContent = state.lives;
+
+  // Salva o desempenho
+  savePlayerPerformance(rank, title);
+
+  showScreen('screen-final');
+  launchConfetti(80);
+}
+
+function restartGame() {
+  // Volta para a tela inicial, mantendo o cadastro do usuário
+  showScreen('screen-home');
+}
+
+function restartGameWithSameCadastro() {
+  // Reinicia o jogo sem pedir cadastro novamente
+  startGame();
+}
+
+// ==============================
+// FEEDBACK
+// ==============================
+function showFeedback(isCorrect, text) {
+  const box = document.getElementById('feedbackBox');
+  const icon = document.getElementById('feedbackIcon');
+  const title = document.getElementById('feedbackTitle');
+  const ftxt = document.getElementById('feedbackText');
+
+  box.className = 'feedback-box show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+  icon.textContent = isCorrect ? '✅' : '❌';
+  title.className = 'fb-title ' + (isCorrect ? 'correct-txt' : 'wrong-txt');
+  title.textContent = isCorrect ? 'Correto! Muito bem!' : 'Errou! Mas vamos aprender...';
+  ftxt.textContent = text;
+}
+
+function hideFeedback() {
+  const box = document.getElementById('feedbackBox');
+  box.className = 'feedback-box';
+}
+
+// ==============================
+// VIDAS
+// ==============================
+function updateLivesBar() {
+  const hearts = document.querySelectorAll('.heart');
+  hearts.forEach((h, i) => {
+    h.classList.toggle('empty', i >= state.lives);
+  });
+}
+
+// ==============================
+// CASA SVG — PROGRESSÃO VISUAL
+// ==============================
+function updateHouseSvg(step) {
+  const steps = {
+    'ground':      [['svg-ground', 1]],
+    'foundation':  [['svg-ground',1], ['svg-foundation', 1]],
+    'walls-start': [['svg-ground',1], ['svg-foundation',1], ['svg-walls', 0.4]],
+    'walls':       [['svg-ground',1], ['svg-foundation',1], ['svg-walls', 0.8]],
+    'roof-start':  [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof', 0.4]],
+    'roof':        [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof', 1]],
+    'door':        [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof',1], ['svg-door', 0.6]],
+    'windows':     [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof',1], ['svg-door',1], ['svg-win-l',1], ['svg-win-r',1]],
+    'chimney':     [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof',1], ['svg-door',1], ['svg-win-l',1], ['svg-win-r',1], ['svg-chimney',1]],
+    'complete':    [['svg-ground',1], ['svg-foundation',1], ['svg-walls',1], ['svg-roof',1], ['svg-door',1], ['svg-win-l',1], ['svg-win-r',1], ['svg-chimney',1]]
+  };
+  const config = steps[step] || [];
+  // Reset
+  ['svg-ground','svg-foundation','svg-walls','svg-roof','svg-door','svg-win-l','svg-win-r','svg-chimney'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.opacity = '0.1';
+  });
+  config.forEach(([id, opacity]) => {
+    const el = document.getElementById(id);
+    if (el) el.style.opacity = opacity;
+  });
+}
+
+// ==============================
+// CONFETTI
+// ==============================
+function launchConfetti(count = 40) {
+  const wrap = document.getElementById('confettiWrap');
+  const colors = ['#FF6B00','#FFD600','#22C55E','#3B82F6','#EC4899','#8B5CF6'];
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      p.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      p.style.animationDelay = (Math.random() * 0.5) + 's';
+      wrap.appendChild(p);
+      setTimeout(() => p.remove(), 3500);
+    }, i * 30);
+  }
+}
+
+// ==============================
+// PERSISTÊNCIA DE DADOS
+// ==============================
+
+// CONFIGURACAO DO GOOGLE SHEETS
+// Substitua a URL abaixo pela sua URL do Google Apps Script
+const GOOGLE_SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbyf5f0jqaOSKWfLTxJIlnxg__zEG4STQoIBUJb9XS5E-hE6LAjcSHHh0jlV8FmtFGCsfA/exec';
+
+// Contador de tentativas
+let attemptNumber = 1;
+
+function savePlayerPerformance(rank, title) {
+  const performance = {
+    name: state.user.name,
+    phone: state.user.phone,
+    knowsCompany: state.user.knowsCompany ? 'Sim' : 'Não',
+    registeredAt: state.user.registeredAt,
+    score: state.score,
+    correctAnswers: state.correctAnswers,
+    totalPhases: PHASES.length,
+    accuracy: Math.round((state.correctAnswers / PHASES.length) * 100),
+    lives: state.lives,
+    rank: rank,
+    title: title,
+    completedAt: new Date().toLocaleString('pt-BR')
+  };
+  
+  // Recupera histórico anterior
+  let history = JSON.parse(localStorage.getItem('constructorMasterHistory')) || [];
+  
+  // Adiciona novo registro
+  history.push(performance);
+  
+  // Salva no localStorage
+  localStorage.setItem('constructorMasterHistory', JSON.stringify(history));
+  
+  // Log no console para debug
+  console.log('✅ Desempenho salvo localmente:', performance);
+  console.log('📊 Histórico completo:', history);
+  
+  // Envia para o Google Sheets (se configurado)
+  sendToGoogleSheets(performance);
+}
+
+function sendToGoogleSheets(performance) {
+  // Verifica se a URL foi configurada
+  if (GOOGLE_SHEETS_API_URL.includes('SEU_SCRIPT_ID')) {
+    console.warn('⚠️ Google Sheets nao configurado. Configure a URL do Apps Script no codigo.');
+    return;
+  }
+  
+  // Prepara os parâmetros para envio via GET (evita erro de CORS)
+  const params = new URLSearchParams();
+  params.append('name', performance.name);
+  params.append('phone', performance.phone);
+  params.append('knowsCompany', performance.knowsCompany);
+  params.append('registeredAt', performance.registeredAt);
+  params.append('score', performance.score);
+  params.append('correctAnswers', performance.correctAnswers);
+  params.append('totalPhases', performance.totalPhases);
+  params.append('accuracy', performance.accuracy);
+  params.append('lives', performance.lives);
+  params.append('rank', performance.rank);
+  params.append('completedAt', performance.completedAt);
+  
+  // Envia via GET (sem problemas de CORS)
+  const urlComParams = GOOGLE_SHEETS_API_URL + '?' + params.toString();
+  
+  fetch(urlComParams, {
+    method: 'GET',
+    mode: 'no-cors'
+  })
+  .then(() => {
+    console.log('✅ Dados enviados para Google Sheets com sucesso!');
+  })
+  .catch(error => {
+    console.error('❌ Erro ao enviar para Google Sheets:', error);
+    console.log('💡 Dica: Verifique se a URL do Apps Script esta correta e se o script foi publicado como "Qualquer pessoa".');
+  });
+}
+
+function getPlayerHistory() {
+  return JSON.parse(localStorage.getItem('constructorMasterHistory')) || [];
+}
+
+function exportPerformanceData() {
+  const history = getPlayerHistory();
+  const csv = [
+    ['Nome', 'Area', 'Conhece_Empresa', 'Data_Cadastro', 'Pontuacao', 'Acertos', 'Taxa_Acerto', 'Vidas', 'Rank', 'Data_Conclusao'],
+    ...history.map(p => [
+      p.name,
+      p.area,
+      p.knowsCompany,
+      p.registeredAt,
+      p.score,
+      `${p.correctAnswers}/${p.totalPhases}`,
+      p.accuracy,
+      p.lives,
+      p.rank,
+      p.completedAt
+    ])
+  ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+  
+  // Cria download
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.setAttribute('href', url);
+  link.setAttribute('download', `desempenho_constructor_master_${new Date().toISOString().split('T')[0]}.csv`);
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function showPerformanceStats() {
+  const history = getPlayerHistory();
+  if (history.length === 0) {
+    alert('Nenhum jogo registrado ainda.');
+    return;
+  }
+  
+  const stats = {
+    totalGames: history.length,
+    averageScore: Math.round(history.reduce((sum, p) => sum + p.score, 0) / history.length),
+    averageAccuracy: Math.round(history.reduce((sum, p) => sum + p.accuracy, 0) / history.length),
+    bestScore: Math.max(...history.map(p => p.score)),
+    perfectGames: history.filter(p => p.rank === 'S').length
+  };
+  
+  console.log('📈 ESTATÍSTICAS GERAIS:');
+  console.log(`Total de Jogos: ${stats.totalGames}`);
+  console.log(`Pontuação Média: ${stats.averageScore}`);
+  console.log(`Taxa de Acerto Média: ${stats.averageAccuracy}%`);
+  console.log(`Melhor Pontuação: ${stats.bestScore}`);
+  console.log(`Jogos Perfeitos (Rank S): ${stats.perfectGames}`);
+  console.log('\n📋 HISTÓRICO COMPLETO:', history);
+  
+  alert(`📊 Estatísticas Gerais:\n\nTotal de Jogos: ${stats.totalGames}\nPontuação Média: ${stats.averageScore}\nTaxa de Acerto: ${stats.averageAccuracy}%\nMelhor Pontuação: ${stats.bestScore}\nJogos Perfeitos: ${stats.perfectGames}\n\nVeja o console (F12) para mais detalhes.`);
+}
+
+// Inicializa casa com estado base
+// Função para aplicar máscara de telefone
+function applyPhoneMask(input) {
+  let value = input.value.replace(/\D/g, '');
+  if (value.length > 11) value = value.slice(0, 11);
+  
+  if (value.length === 0) {
+    input.value = '';
+  } else if (value.length <= 2) {
+    input.value = `(${value}`;
+  } else if (value.length <= 7) {
+    input.value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+  } else {
+    input.value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
+  }
+}
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  updateHouseSvg('ground');
+  
+  // Adiciona máscara de telefone
+  const phoneInput = document.getElementById('userPhone');
+  if (phoneInput) {
+    phoneInput.addEventListener('input', function() {
+      applyPhoneMask(this);
+    });
+  }
+  
+  // Dica: Pressione Ctrl+Shift+K no console e digite: showPerformanceStats() para ver as estatísticas
+  console.log('%c🎮 Constructor Master - Modo Debug', 'font-size: 16px; font-weight: bold; color: #FF6B00;');
+  console.log('Comandos disponíveis no console:');
+  console.log('  showPerformanceStats() - Ver estatísticas gerais');
+  console.log('  getPlayerHistory() - Ver histórico completo');
+  console.log('  exportPerformanceData() - Baixar dados em CSV');
+  console.log('  localStorage.clear() - Limpar todos os dados');
+  
+  // Verifica configuracao do Google Sheets
+  if (!GOOGLE_SHEETS_API_URL.includes('SEU_SCRIPT_ID')) {
+    console.log('%c✅ Google Sheets esta configurado!', 'color: #22C55E; font-weight: bold;');
+  } else {
+    console.log('%c⚠️ Google Sheets nao esta configurado. Veja as instrucoes no console.', 'color: #FF6B00; font-weight: bold;');
+  }
+});

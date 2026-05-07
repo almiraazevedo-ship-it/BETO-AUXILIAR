@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Construtor Master – O Jogo da Obra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>                                        
+
+<!-- Confetti -->
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<!-- ===== TELA INICIAL ===== -->
+<section class="screen active" id="screen-home">
+  <div class="card">
+    <div class="hero">
+      <div class="mascot-wrap">
+        <div class="mascot-circle"><img src="images/beto.png" alt="Beto - Auxiliar em Manutenção"/></div>
+      </div>
+      <div class="badge-mascot">🔧 Beto — Auxiliar em Manutenção</div>
+      <h1>Construtor <span>Master</span></h1>
+      <p class="subtitle">O Jogo da Obra — aprenda construindo!</p>
+
+      <div class="speech-bubble">
+        <p>E aí! Eu sou o <strong>Beto</strong>, auxiliar em manutenção da <strong>LocExpress</strong>! 🔧<br>
+        Vamos construir uma <strong>casa do zero</strong>? Em cada fase da obra, você vai escolher o equipamento correto para avançar. São <strong>10 fases</strong>, desde o canteiro até a limpeza final!<br><br>
+        <strong>Bora trabalhar, equipe!</strong> 🦺</p>
+      </div>
+
+      <div class="phases-preview">
+        <div class="phase-dot"><span class="icon">🏕️</span>Canteiro</div>
+        <div class="phase-dot"><span class="icon">🏗️</span>Fundação</div>
+        <div class="phase-dot"><span class="icon">💥</span>Demolição</div>
+        <div class="phase-dot"><span class="icon">🔩</span>Estrutura</div>
+        <div class="phase-dot"><span class="icon">🧱</span>Alvenaria</div>
+        <div class="phase-dot"><span class="icon">⚡</span>Instalações</div>
+        <div class="phase-dot"><span class="icon">🪨</span>Piso</div>
+        <div class="phase-dot"><span class="icon">🎨</span>Acabamento</div>
+        <div class="phase-dot"><span class="icon">🌿</span>Jardinagem</div>
+        <div class="phase-dot"><span class="icon">🧹</span>Limpeza</div>
+      </div>
+
+      <button class="btn btn-primary" onclick="showRegistration()">
+        <i class="fas fa-hard-hat"></i> &nbsp;Iniciar a Obra!
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TELA DE CADASTRO ===== -->
+<section class="screen" id="screen-register">
+  <div class="card">
+    <div class="hero">
+      <h1>Antes de <span>Começar</span></h1>
+      <p class="subtitle">Precisamos conhecer você melhor!</p>
+      
+      <div class="form-group">
+        <label for="userName">Nome</label>
+        <input type="text" id="userName" placeholder="Digite seu nome..." required>
+      </div>
+      
+      <div class="form-group">
+        <label for="userPhone">Telefone/WhatsApp</label>
+        <input type="text" id="userPhone" placeholder="(00) 00000-0000" required>
+      </div>
+
+      <div class="form-group">
+        <label>Você já conhece a LocExpress?</label>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button class="btn-choice" id="btnYes" onclick="selectKnowsCompany(true)">
+            <i class="fas fa-check"></i> Sim
+          </button>
+          <button class="btn-choice" id="btnNo" onclick="selectKnowsCompany(false)">
+            <i class="fas fa-times"></i> Não
+          </button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="btnSubmitReg" onclick="submitRegistration()" style="margin-top: 20px;">
+        Começar &nbsp;<i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TELA DE JOGO ===== -->
+<section class="screen" id="screen-game">
+  <div class="card">
+    <!-- Topbar -->
+    <div class="game-topbar">
+      <div class="lives-bar" id="livesBar">
+        <span class="heart">❤️</span>
+        <span class="heart">❤️</span>
+        <span class="heart">❤️</span>
+      </div>
+      <div class="phase-badge" id="phaseBadge">Fase 1/10</div>
+      <div class="score-badge">⭐ <span id="scoreDisplay">0</span> pts</div>
+    </div>
+    <!-- Botão Voltar -->
+    <div style="margin-bottom:12px">
+      <button class="btn-back" id="btnBack" onclick="prevPhase()">
+        <i class="fas fa-arrow-left"></i> Voltar Fase
+      </button>
+    </div>
+
+    <!-- Progresso -->
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="progressLabel">Progresso da Obra</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="game-layout">
+      <!-- Coluna principal -->
+      <div class="main-col">
+        <!-- Dica do Mestre André -->
+        <div class="mascot-hint">
+          <div class="mascot-mini"><img src="images/beto.png" alt="Beto"/></div>
+          <div class="mascot-hint-text">
+            <div class="name" id="hintGreeting">Olá :</div>
+            <p id="masterHint"><strong>BETO:</strong> Selecione a resposta correta para avançar!</p>
+          </div>
+        </div>
+
+        <!-- Pergunta -->
+        <div class="question-card">
+          <div class="question-phase-label" id="qPhaseLabel">Fase 1 — Preparação do Terreno</div>
+          <div class="question-text" id="questionText">Carregando pergunta...</div>
+        </div>
+
+        <!-- Opções -->
+        <div class="options-grid" id="optionsGrid"></div>
+
+        <!-- Feedback -->
+        <div class="feedback-box" id="feedbackBox">
+          <div class="feedback-icon" id="feedbackIcon"></div>
+          <div class="feedback-content">
+            <div class="fb-title" id="feedbackTitle"></div>
+            <p id="feedbackText"></p>
+          </div>
+        </div>
+
+        <!-- Botão próximo -->
+        <button class="btn btn-primary btn-next" id="btnNext" onclick="nextPhase()">
+          Próxima Fase <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Painel lateral -->
+      <aside class="side-panel">
+        <div class="house-progress">
+          <div class="house-title">🏠 Sua Casa</div>
+          <div class="house-visual">
+            <svg class="house-svg" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" id="houseSvg">
+              <!-- Terreno -->
+              <rect x="0" y="185" width="220" height="15" fill="#8B6914" id="svg-ground"/>
+              <!-- Fundação -->
+              <rect x="20" y="170" width="180" height="16" fill="#9CA3AF" id="svg-foundation" opacity="0.2"/>
+              <!-- Paredes -->
+              <rect x="30" y="100" width="160" height="70" fill="#D1D5DB" id="svg-walls" opacity="0.2"/>
+              <!-- Telhado -->
+              <polygon points="10,100 110,30 210,100" fill="#EF4444" id="svg-roof" opacity="0.1"/>
+              <!-- Porta -->
+              <rect x="90" y="130" width="40" height="40" rx="4" fill="#92400E" id="svg-door" opacity="0.1"/>
+              <!-- Janela esq -->
+              <rect x="40" y="115" width="35" height="30" rx="4" fill="#93C5FD" id="svg-win-l" opacity="0.1"/>
+              <!-- Janela dir -->
+              <rect x="145" y="115" width="35" height="30" rx="4" fill="#93C5FD" id="svg-win-r" opacity="0.1"/>
+              <!-- Chaminé -->
+              <rect x="145" y="45" width="18" height="30" fill="#6B7280" id="svg-chimney" opacity="0.1"/>
+            </svg>
+          </div>
+
+          <div class="mini-phases" id="miniPhasesList"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TELA FINAL ===== -->
+<section class="screen" id="screen-final">
+  <div class="card">
+    <div class="final-emoji"><img src="images/casinha laranja.png" alt="NossaLogo"></div>
+    <h2>VEM SER LOCEXPRESS!</h2>
+    <div class="rank" id="finalRank">S</div>
+    <div class="final-score" id="finalTitle">Mestre Construtor</div>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-val" id="finalScore">0</div>
+        <div class="stat-lbl">Pontuação</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="finalCorrect">0</div>
+        <div class="stat-lbl">Acertos</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="finalLives">0</div>
+        <div class="stat-lbl">Vidas restantes</div>
+      </div>
+    </div>
+
+    <p style="color:var(--text-light);font-size:0.95rem;margin-bottom:24px;">
+      Parabéns! O Beto ficou orgulhoso de você! Você concluiu todas as fases da obra e construiu a casa do zero! 🎊
+    </p>
+    <button class="btn btn-primary" onclick="restartGame()">
+      <i class="fas fa-redo"></i> &nbsp;Jogar Novamente
+    </button>
+  </div>
+</section>
+
+<!-- ===== TELA GAME OVER ===== -->
+<section class="screen" id="screen-gameover">
+  <div class="card">
+    <span style="font-size:5rem;display:block;margin-bottom:16px;">😞</span>
+    <h2 style="font-size:2rem;font-weight:900;color:var(--red);margin-bottom:8px;">Obra Paralisada!</h2>
+    <p style="color:var(--text-light);margin-bottom:8px;">Você ficou sem vidas... mas todo construtor aprende com os erros!</p>
+    <p style="font-size:1.1rem;font-weight:700;color:var(--blue);margin-bottom:24px;">Pontuação: <span id="goScore">0</span> pts</p>
+    <button class="btn btn-primary" onclick="restartGame()">
+      <i class="fas fa-redo"></i> &nbsp;Tentar Novamente
+    </button>
+  </div>
+</section>
+<script src="script.js"></script>
+</body>
+</html>
